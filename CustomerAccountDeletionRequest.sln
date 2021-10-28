@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAccountDeletionRequest", "CustomerAccountDeletionRequest.csproj", "{91FAE50A-17A9-439D-B4D5-4A882AF67CA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91FAE50A-17A9-439D-B4D5-4A882AF67CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FAE50A-17A9-439D-B4D5-4A882AF67CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FAE50A-17A9-439D-B4D5-4A882AF67CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FAE50A-17A9-439D-B4D5-4A882AF67CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14712BB0-344E-4017-994D-6D5D76C1ADF7}
+	EndGlobalSection
+EndGlobal
