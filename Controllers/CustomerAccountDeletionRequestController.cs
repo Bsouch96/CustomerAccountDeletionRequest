@@ -20,7 +20,7 @@ namespace CustomerAccountDeletionRequest.Controllers
             IMapper mapper)
         {
             _customerAccountDeletionRequestRepository = customerAccountDeletionRequestRepository;
-            mapper = mapper;
+            _mapper = mapper;
         }
 
         /// <summary>
