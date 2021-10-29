@@ -2,7 +2,7 @@
 
 namespace CustomerAccountDeletionRequest.DomainModels
 {
-    public class DeletionRequestCreateModel
+    public class DeletionRequestModel
     {
         public int CustomerID { get; set; }
         public string CustomerName { get; set; }
