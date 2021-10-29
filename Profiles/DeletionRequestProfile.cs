@@ -12,7 +12,7 @@ namespace CustomerAccountDeletionRequest.Profiles
     {
         public DeletionRequestProfile()
         {
-            CreateMap<DeletionRequestModel, DeletionRequestCreateDTO>();
+            CreateMap<DeletionRequestModel, DeletionRequestReadDTO>();
         }
     }
 }

@@ -39,11 +39,11 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// <param name="ID"></param>
         /// <returns></returns>
         [HttpGet("{ID}")]
-        public ActionResult<DeletionRequestCreateDTO> GetDeletionRequest(int ID)
+        public ActionResult<DeletionRequestReadDTO> GetDeletionRequest(int ID)
         {
             var deletionRequestModel = _customerAccountDeletionRequestRepository.GetDeletionRequest(ID);
 
-            return _mapper.Map<DeletionRequestCreateDTO>(deletionRequestModel);
+            return _mapper.Map<DeletionRequestReadDTO>(deletionRequestModel);
         }
     }
 }
