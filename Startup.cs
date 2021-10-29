@@ -13,9 +13,11 @@ namespace CustomerAccountDeletionRequest
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -30,7 +32,14 @@ namespace CustomerAccountDeletionRequest
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            //services.AddScoped(ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository);
+            /*if(_environment.IsDevelopment())
+            {
+                services.AddTransient<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
+            }
+            else
+            {
+                services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
+            }*/
             services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
         }
 
