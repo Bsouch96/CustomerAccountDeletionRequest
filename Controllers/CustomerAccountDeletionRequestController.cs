@@ -1,4 +1,6 @@
-﻿using CustomerAccountDeletionRequest.DomainModels;
+﻿using AutoMapper;
+using CustomerAccountDeletionRequest.DomainModels;
+using CustomerAccountDeletionRequest.DTOs;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,9 +15,12 @@ namespace CustomerAccountDeletionRequest.Controllers
     public class CustomerAccountDeletionRequestController : ControllerBase
     {
         private ICustomerAccountDeletionRequestRepository _customerAccountDeletionRequestRepository;
-        public CustomerAccountDeletionRequestController(ICustomerAccountDeletionRequestRepository customerAccountDeletionRequestRepository)
+        private IMapper _mapper;
+        public CustomerAccountDeletionRequestController(ICustomerAccountDeletionRequestRepository customerAccountDeletionRequestRepository,
+            IMapper mapper)
         {
             _customerAccountDeletionRequestRepository = customerAccountDeletionRequestRepository;
+            mapper = mapper;
         }
 
         /// <summary>
@@ -34,9 +39,11 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// <param name="ID"></param>
         /// <returns></returns>
         [HttpGet("{ID}")]
-        public ActionResult<DeletionRequestModel> GetDeletionRequest(int ID)
+        public ActionResult<DeletionRequestCreateDTO> GetDeletionRequest(int ID)
         {
-            DeletionRequestModel deletionRequestModel = _customerAccountDeletionRequestRepository.GetDeletionRequest(ID);
+            var deletionRequestModel = _customerAccountDeletionRequestRepository.GetDeletionRequest(ID);
+
+            return _mapper.Map<DeletionRequestCreateDTO>(deletionRequestModel);
         }
     }
 }
