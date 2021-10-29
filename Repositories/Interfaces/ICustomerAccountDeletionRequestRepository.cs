@@ -8,7 +8,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Interfaces
 {
    public interface ICustomerAccountDeletionRequestRepository
    {
-        public IEnumerable<DeletionRequestModel> GetAllDeletionRequests();
-        public DeletionRequestModel GetDeletionRequest(int ID);
+        public Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests();
+        public Task<DeletionRequestModel> GetDeletionRequest(int ID);
    }
 }
