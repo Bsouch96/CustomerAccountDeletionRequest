@@ -1,6 +1,5 @@
 ﻿using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,18 +22,17 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
 
         }
 
-        public Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests()
+        public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests()
         {
-            return Task.FromResult(_deletionRequests.AsEnumerable());
+            return await Task.FromResult(_deletionRequests.AsEnumerable());
         }
 
-        public Task<DeletionRequestModel> GetDeletionRequest(int ID)
+        public async Task<DeletionRequestModel> GetDeletionRequest(int ID)
         {
             if (ID < 1)
                 return null;
 
-            DeletionRequestModel deletionRequestModel = _deletionRequests.FirstOrDefault(d => d.CustomerID == ID);
-            return Task.FromResult(deletionRequestModel);
+            return await Task.FromResult(_deletionRequests.FirstOrDefault(d => d.CustomerID == ID));
         }
     }
 }

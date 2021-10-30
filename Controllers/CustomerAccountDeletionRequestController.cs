@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace CustomerAccountDeletionRequest.Controllers
 {
     [ApiController]
-    [Route("API/CustomerAccountDeletionRequest")]
+    [Route("api/CustomerAccountDeletionRequest")]
     public class CustomerAccountDeletionRequestController : ControllerBase
     {
         private ICustomerAccountDeletionRequestRepository _customerAccountDeletionRequestRepository;
@@ -28,9 +28,11 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests()
+        public async Task<ActionResult<IEnumerable<DeletionRequestReadDTO>>> GetAllDeletionRequests()
         {
-            return null;
+            var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllDeletionRequests();
+
+            return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestModels));
         }
 
         /// <summary>
@@ -39,11 +41,14 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// <param name="ID"></param>
         /// <returns></returns>
         [HttpGet("{ID}")]
-        public ActionResult<DeletionRequestReadDTO> GetDeletionRequest(int ID)
+        public async Task<ActionResult<DeletionRequestReadDTO>> GetDeletionRequest(int ID)
         {
-            var deletionRequestModel = _customerAccountDeletionRequestRepository.GetDeletionRequest(ID);
+            var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequest(ID);
 
-            return _mapper.Map<DeletionRequestReadDTO>(deletionRequestModel);
+            if (deletionRequestModel != null)
+                return Ok(_mapper.Map<DeletionRequestReadDTO>(deletionRequestModel));
+            
+            return NotFound();
         }
     }
 }

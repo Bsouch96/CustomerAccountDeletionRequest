@@ -9,12 +9,12 @@ namespace CustomerAccountDeletionRequest.Context
 {
     public class CustomerAccountDeletionRequestContext : DbContext
     {
+        public DbSet<DeletionRequestModel> DeletionRequestContext { get; set; }
+
         public CustomerAccountDeletionRequestContext(DbContextOptions<CustomerAccountDeletionRequestContext>
             options) : base(options)
         {
 
         }
-
-        public DbSet<DeletionRequestModel> DeletionRequestContext { get; set; }
     }
 }
