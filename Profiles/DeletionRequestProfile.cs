@@ -14,6 +14,8 @@ namespace CustomerAccountDeletionRequest.Profiles
         {
             CreateMap<DeletionRequestModel, DeletionRequestReadDTO>();
             CreateMap<DeletionRequestCreateDTO, DeletionRequestModel>();
+            CreateMap<DeletionRequestModel, DeletionRequestApproveDTO>();
+            CreateMap<DeletionRequestApproveDTO, DeletionRequestModel>();
         }
     }
 }

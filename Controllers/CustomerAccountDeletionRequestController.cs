@@ -2,10 +2,10 @@
 using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.DTOs;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CustomerAccountDeletionRequest.Controllers
@@ -51,16 +51,52 @@ namespace CustomerAccountDeletionRequest.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// This function is used to create a deletion request for a customer.
+        /// </summary>
+        /// <param name="deletionRequestCreateDTO">The parameters supplied to create a deletion request by the POSTing API.</param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
+        public async Task<ActionResult> CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
         {
             var deletionRequestModel = _mapper.Map<DeletionRequestModel>(deletionRequestCreateDTO);
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
             deletionRequestModel.DateRequested = DateTime.Now;
 
-            _customerAccountDeletionRequestRepository.CreateDeletionRequestAsync(deletionRequestModel);
+            await _customerAccountDeletionRequestRepository.CreateDeletionRequestAsync(deletionRequestModel);
+            await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
             return Ok();
+        }
+
+        /// <summary>
+        /// This function will approve a customer's account deletion request. It updates the deletion request with the StaffID that approved
+        /// the request and the DateTime that the request was approved.
+        /// </summary>
+        /// <param name="ID">The ID of the customer account that will have their account request approved.</param>
+        /// <returns></returns>
+        [HttpPut("{ID}")]
+        public async Task<ActionResult> ApproveDeletionRequest(int ID, JsonPatchDocument<DeletionRequestApproveDTO> deletionRequestApprovePatch)
+        {
+            var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
+            if (deletionRequestModel == null)
+                return NotFound();
+
+            var newDeletionRequest = _mapper.Map<DeletionRequestApproveDTO>(deletionRequestModel);
+            deletionRequestApprovePatch.ApplyTo(newDeletionRequest, ModelState);
+
+            if (!TryValidateModel(newDeletionRequest))
+                return ValidationProblem(ModelState);
+
+            deletionRequestModel.DateApproved = System.DateTime.Now;
+            deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.Approved;
+
+            _mapper.Map(newDeletionRequest, deletionRequestModel);
+
+            await _customerAccountDeletionRequestRepository.UpdateDeletionRequestAsync(deletionRequestModel);
+            await _customerAccountDeletionRequestRepository.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Newtonsoft.Json.Serialization;
 
 namespace CustomerAccountDeletionRequest
 {
@@ -28,7 +29,10 @@ namespace CustomerAccountDeletionRequest
             services.AddDbContext<CustomerAccountDeletionRequestContext>(options => options.UseSqlServer
             (Configuration.GetConnectionString("CustomerAccountDeletionRequestConnection")));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(j =>
+            {
+                j.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -40,7 +44,7 @@ namespace CustomerAccountDeletionRequest
             {
                 services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
             }*/
-            services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
+            services.AddSingleton<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

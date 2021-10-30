@@ -3,7 +3,6 @@ using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CustomerAccountDeletionRequest.Repositories.Concrete
@@ -27,17 +26,17 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID);
         }
 
-        public async void CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
+        public async Task CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
         {
             await _customerAccountDeletionRequestContext.AddAsync(deletionRequestModel);
         }
 
-        public async void UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
+        public async Task UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
         {
             //await _customerAccountDeletionRequestContext.(deletionRequestModel);
         }
 
-        public async void SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _customerAccountDeletionRequestContext.SaveChangesAsync();
         }
