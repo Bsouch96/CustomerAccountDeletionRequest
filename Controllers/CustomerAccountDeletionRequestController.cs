@@ -56,6 +56,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         {
             var deletionRequestModel = _mapper.Map<DeletionRequestModel>(deletionRequestCreateDTO);
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
+            deletionRequestModel.DateRequested = DateTime.Now;
 
             _customerAccountDeletionRequestRepository.CreateDeletionRequestAsync(deletionRequestModel);
 
