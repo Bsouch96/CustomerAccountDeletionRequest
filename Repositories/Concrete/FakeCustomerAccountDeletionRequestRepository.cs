@@ -40,6 +40,11 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             _deletionRequests.Add(deletionRequestModel);
         }
 
+        public void UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
+        {
+
+        }
+
         public void SaveChanges()
         {
 

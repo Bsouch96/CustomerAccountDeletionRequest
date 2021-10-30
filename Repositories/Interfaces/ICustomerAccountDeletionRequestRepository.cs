@@ -11,6 +11,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Interfaces
         public Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequestsAsync();
         public Task<DeletionRequestModel> GetDeletionRequestAsync(int ID);
         public void CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel);
+        public void UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel);
         public void SaveChanges();
    }
 }

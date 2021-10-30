@@ -32,6 +32,11 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             await _customerAccountDeletionRequestContext.AddAsync(deletionRequestModel);
         }
 
+        public async void UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
+        {
+            //await _customerAccountDeletionRequestContext.(deletionRequestModel);
+        }
+
         public async void SaveChanges()
         {
             await _customerAccountDeletionRequestContext.SaveChangesAsync();
