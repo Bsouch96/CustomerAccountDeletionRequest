@@ -30,7 +30,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeletionRequestReadDTO>>> GetAllDeletionRequests()
         {
-            var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllDeletionRequests();
+            var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllDeletionRequestsAsync();
 
             return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestModels));
         }
@@ -43,12 +43,23 @@ namespace CustomerAccountDeletionRequest.Controllers
         [HttpGet("{ID}")]
         public async Task<ActionResult<DeletionRequestReadDTO>> GetDeletionRequest(int ID)
         {
-            var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequest(ID);
+            var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
 
             if (deletionRequestModel != null)
                 return Ok(_mapper.Map<DeletionRequestReadDTO>(deletionRequestModel));
             
             return NotFound();
+        }
+
+        [HttpPost]
+        public ActionResult CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
+        {
+            var deletionRequestModel = _mapper.Map<DeletionRequestModel>(deletionRequestCreateDTO);
+            deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
+
+            _customerAccountDeletionRequestRepository.CreateDeletionRequestAsync(deletionRequestModel);
+
+            return Ok();
         }
     }
 }

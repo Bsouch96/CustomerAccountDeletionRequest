@@ -17,17 +17,17 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             _customerAccountDeletionRequestContext = customerAccountDeletionContext;
         }
 
-        public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests()
+        public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequestsAsync()
         {
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.ToListAsync();
         }
 
-        public async Task<DeletionRequestModel> GetDeletionRequest(int ID)
+        public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
         {
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID);
         }
 
-        public async void CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
+        public async void CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
         {
             await _customerAccountDeletionRequestContext.AddAsync(deletionRequestModel);
         }

@@ -22,12 +22,12 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             };
         }
 
-        public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests()
+        public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequestsAsync()
         {
             return await Task.FromResult(_deletionRequests.AsEnumerable());
         }
 
-        public async Task<DeletionRequestModel> GetDeletionRequest(int ID)
+        public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
         {
             if (ID < 1)
                 return null;
@@ -35,7 +35,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             return await Task.FromResult(_deletionRequests.FirstOrDefault(d => d.CustomerID == ID));
         }
 
-        public void CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
+        public void CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
         {
             _deletionRequests.Add(deletionRequestModel);
         }
