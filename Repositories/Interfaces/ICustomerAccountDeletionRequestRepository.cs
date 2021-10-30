@@ -10,5 +10,6 @@ namespace CustomerAccountDeletionRequest.Repositories.Interfaces
    {
         public Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequests();
         public Task<DeletionRequestModel> GetDeletionRequest(int ID);
+        public void CreateDeletionRequest(DeletionRequestModel deletionRequestModel);
    }
 }
