@@ -8,7 +8,6 @@ namespace CustomerAccountDeletionRequest.DTOs
     public class DeletionRequestReadDTO
     {
         public int CustomerID { get; set; }
-        public string CustomerName { get; set; }
         public string DeletionReason { get; set; }
     }
 }
