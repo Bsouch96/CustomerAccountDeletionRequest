@@ -11,11 +11,11 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
     {
         private readonly DeletionRequestModel[] _deletionRequests =
         {
-            new DeletionRequestModel { CustomerID = 1, CustomerName = "Ben Souch", DeletionReason = "Terrible Site", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
-            new DeletionRequestModel { CustomerID = 2, CustomerName = "Jacob Jardine", DeletionReason = "Terrible Site", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
-            new DeletionRequestModel { CustomerID = 3, CustomerName = "Cristian Tudor", DeletionReason = "Terrible Site", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
-            new DeletionRequestModel { CustomerID = 4, CustomerName = "Joseph Stavely", DeletionReason = "Terrible Site", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
-            new DeletionRequestModel { CustomerID = 5, CustomerName = "Teddy Teasdale", DeletionReason = "Terrible Site", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision }
+            new DeletionRequestModel { CustomerID = 1, DeletionReason = "Terrible Site.", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
+            new DeletionRequestModel { CustomerID = 2, DeletionReason = "Prefer Amazon.", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
+            new DeletionRequestModel { CustomerID = 3, DeletionReason = "Too many clicks.", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
+            new DeletionRequestModel { CustomerID = 4, DeletionReason = "Scammed into signing up.", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
+            new DeletionRequestModel { CustomerID = 5, DeletionReason = "If Wish was built by students...", DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision }
         };
 
         public FakeCustomerAccountDeletionRequestRepository()
