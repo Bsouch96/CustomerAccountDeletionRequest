@@ -38,7 +38,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// <summary>
         /// GET individual customer account deletion request.
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="ID">Represents the customer's ID and is used to get their deletion request.</param>
         /// <returns></returns>
         [HttpGet("{ID}")]
         public async Task<ActionResult<DeletionRequestReadDTO>> GetDeletionRequest(int ID)
