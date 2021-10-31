@@ -63,10 +63,10 @@ namespace CustomerAccountDeletionRequest.Controllers
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
             deletionRequestModel.DateRequested = DateTime.Now;
 
-            _customerAccountDeletionRequestRepository.CreateDeletionRequest(deletionRequestModel);
+            int newDeletionRequestID = _customerAccountDeletionRequestRepository.CreateDeletionRequest(deletionRequestModel);
             await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
-            return Ok();
+            return CreatedAtAction(nameof(GetDeletionRequest), new { ID = newDeletionRequestID});
         }
 
         /// <summary>

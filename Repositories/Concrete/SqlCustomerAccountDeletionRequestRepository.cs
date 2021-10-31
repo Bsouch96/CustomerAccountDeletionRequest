@@ -26,9 +26,9 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID);
         }
 
-        public void CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
+        public int CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
-            _customerAccountDeletionRequestContext.Add(deletionRequestModel);
+            return _customerAccountDeletionRequestContext.Add(deletionRequestModel).Entity.DeletionRequestID;
         }
 
         public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
