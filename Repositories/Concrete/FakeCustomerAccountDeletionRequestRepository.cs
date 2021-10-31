@@ -24,7 +24,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
 
         public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequestsAsync()
         {
-            return await Task.FromResult(_deletionRequests.AsEnumerable());
+            return await Task.FromResult(_deletionRequests);
         }
 
         public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
