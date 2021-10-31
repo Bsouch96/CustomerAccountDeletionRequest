@@ -26,14 +26,14 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID);
         }
 
-        public async Task CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
+        public void CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
-            await _customerAccountDeletionRequestContext.AddAsync(deletionRequestModel);
+            _customerAccountDeletionRequestContext.Add(deletionRequestModel);
         }
 
-        public async Task UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel)
+        public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
-            //await _customerAccountDeletionRequestContext.(deletionRequestModel);
+            //EF tracks the changes of updates. It pushes them to the DB when SaveChangesAsync() has been called.
         }
 
         public async Task SaveChangesAsync()

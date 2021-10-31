@@ -7,6 +7,7 @@ namespace CustomerAccountDeletionRequest.DomainModels
     public class DeletionRequestModel
     {
         [Key]
+        public int DeletionRequestID { get; set; }
         public int CustomerID { get; set; }
         public string DeletionReason { get; set; }
         public DateTime DateRequested { get; set; }

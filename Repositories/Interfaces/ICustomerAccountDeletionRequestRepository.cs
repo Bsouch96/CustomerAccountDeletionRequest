@@ -8,8 +8,8 @@ namespace CustomerAccountDeletionRequest.Repositories.Interfaces
    {
         public Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequestsAsync();
         public Task<DeletionRequestModel> GetDeletionRequestAsync(int ID);
-        public Task CreateDeletionRequestAsync(DeletionRequestModel deletionRequestModel);
-        public Task UpdateDeletionRequestAsync(DeletionRequestModel deletionRequestModel);
+        public void CreateDeletionRequest(DeletionRequestModel deletionRequestModel);
+        public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel);
         public Task SaveChangesAsync();
    }
 }

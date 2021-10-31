@@ -63,7 +63,7 @@ namespace CustomerAccountDeletionRequest.Controllers
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
             deletionRequestModel.DateRequested = DateTime.Now;
 
-            await _customerAccountDeletionRequestRepository.CreateDeletionRequestAsync(deletionRequestModel);
+            _customerAccountDeletionRequestRepository.CreateDeletionRequest(deletionRequestModel);
             await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
             return Ok();
@@ -93,7 +93,7 @@ namespace CustomerAccountDeletionRequest.Controllers
 
             _mapper.Map(newDeletionRequest, deletionRequestModel);
 
-            await _customerAccountDeletionRequestRepository.UpdateDeletionRequestAsync(deletionRequestModel);
+            _customerAccountDeletionRequestRepository.UpdateDeletionRequest(deletionRequestModel);
             await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
             return NoContent();
