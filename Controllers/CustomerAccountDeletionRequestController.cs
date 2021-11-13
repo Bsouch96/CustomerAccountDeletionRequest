@@ -135,8 +135,8 @@ namespace CustomerAccountDeletionRequest.Controllers
 
             if (_memoryCache.TryGetValue("CustomerAccountDeletionRequests", out List<DeletionRequestModel> deletionRequestValues))
             {
-                DeletionRequestModel deletionRequestModelCache = deletionRequestValues.Find(delReq => delReq.CustomerID == deletionRequestModel.CustomerID);
-                deletionRequestModelCache = deletionRequestModel;
+                deletionRequestValues.RemoveAll(delReq => delReq.CustomerID == deletionRequestModel.CustomerID);
+                deletionRequestValues.Add(deletionRequestModel);
             }
 
             return NoContent();
