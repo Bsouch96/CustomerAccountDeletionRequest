@@ -89,6 +89,9 @@ namespace CustomerAccountDeletionRequest.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
         {
+            if (deletionRequestCreateDTO == null)
+                return BadRequest();
+
             var deletionRequestModel = _mapper.Map<DeletionRequestModel>(deletionRequestCreateDTO);
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
             deletionRequestModel.DateRequested = DateTime.Now;
