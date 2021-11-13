@@ -35,6 +35,7 @@ namespace CustomerAccountDeletionRequest
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMemoryCache();
 
             /*if(_environment.IsDevelopment())
             {

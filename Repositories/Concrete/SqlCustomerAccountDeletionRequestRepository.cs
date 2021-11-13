@@ -16,7 +16,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             _customerAccountDeletionRequestContext = customerAccountDeletionContext;
         }
 
-        public async Task<IEnumerable<DeletionRequestModel>> GetAllDeletionRequestsAsync()
+        public async Task<List<DeletionRequestModel>> GetAllDeletionRequestsAsync()
         {
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.ToListAsync();
         }
@@ -26,9 +26,9 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             return await _customerAccountDeletionRequestContext.DeletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID);
         }
 
-        public int CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
+        public DeletionRequestModel CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
-            return _customerAccountDeletionRequestContext.Add(deletionRequestModel).Entity.DeletionRequestID;
+            return _customerAccountDeletionRequestContext.Add(deletionRequestModel).Entity;
         }
 
         public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
