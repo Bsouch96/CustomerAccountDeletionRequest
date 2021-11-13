@@ -62,8 +62,13 @@ namespace CustomerAccountDeletionRequest.Controllers
 
                 //Otherwise, get the entity from the DB, add it to the cache and return it.
                 deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
-                deletionRequestCacheValues.Add(deletionRequestModel);
-                return Ok(_mapper.Map<DeletionRequestReadDTO>(deletionRequestModel));
+                if(deletionRequestModel != null)
+                {
+                    deletionRequestCacheValues.Add(deletionRequestModel);
+                    return Ok(_mapper.Map<DeletionRequestReadDTO>(deletionRequestModel));
+                }
+
+                return NotFound();
             }
 
             //If cache has expired, get entity from DB and return it.
@@ -80,6 +85,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// </summary>
         /// <param name="deletionRequestCreateDTO">The parameters supplied to create a deletion request by the POSTing API.</param>
         /// <returns></returns>
+        [Route("Create")]
         [HttpPost]
         public async Task<ActionResult> CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
         {
@@ -102,7 +108,8 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// </summary>
         /// <param name="ID">The ID of the customer account that will have their account request approved.</param>
         /// <returns></returns>
-        [HttpPut("{ID}")]
+        [Route("Approve/{ID}")]
+        [HttpPut]
         public async Task<ActionResult> ApproveDeletionRequest(int ID, JsonPatchDocument<DeletionRequestApproveDTO> deletionRequestApprovePatch)
         {
             var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
@@ -136,8 +143,8 @@ namespace CustomerAccountDeletionRequest.Controllers
         {
             return new MemoryCacheEntryOptions()
             {
-                SlidingExpiration = new TimeSpan(0, 1, 0),
-                AbsoluteExpirationRelativeToNow = new TimeSpan(0, 2, 0),
+                SlidingExpiration = new TimeSpan(0, 10, 0),
+                AbsoluteExpirationRelativeToNow = new TimeSpan(0, 20, 0),
                 Priority = CacheItemPriority.Normal,
                 Size = 1028
             };
