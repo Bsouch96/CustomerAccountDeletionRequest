@@ -22,9 +22,9 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             };
         }
 
-        public async Task<List<DeletionRequestModel>> GetAllDeletionRequestsAsync()
+        public async Task<List<DeletionRequestModel>> GetAllAwaitingDeletionRequestsAsync()
         {
-            return await Task.FromResult(new List<DeletionRequestModel>(_deletionRequests));
+            return await Task.FromResult(new List<DeletionRequestModel>(_deletionRequests.Where(dr => dr.DeletionRequestStatus == Enums.DeletionRequestStatusEnum.AwaitingDecision)));
         }
 
         public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)

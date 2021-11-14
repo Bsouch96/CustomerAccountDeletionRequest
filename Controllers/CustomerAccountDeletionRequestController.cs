@@ -38,8 +38,7 @@ namespace CustomerAccountDeletionRequest.Controllers
             if(_memoryCache.TryGetValue("CustomerAccountDeletionRequests", out List<DeletionRequestModel> deletionRequestValues))
                 return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestValues));
 
-            var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllDeletionRequestsAsync();
-            _memoryCache.Set("CustomerAccountDeletionRequests", deletionRequestModels, GetMemoryCacheEntryOptions());
+            var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllAwaitingDeletionRequestsAsync();
             return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestModels));
         }
 
@@ -140,17 +139,6 @@ namespace CustomerAccountDeletionRequest.Controllers
             }
 
             return NoContent();
-        }
-
-        private MemoryCacheEntryOptions GetMemoryCacheEntryOptions()
-        {
-            return new MemoryCacheEntryOptions()
-            {
-                SlidingExpiration = new TimeSpan(0, 10, 0),
-                AbsoluteExpirationRelativeToNow = new TimeSpan(0, 20, 0),
-                Priority = CacheItemPriority.Normal,
-                Size = 1028
-            };
         }
     }
 }
