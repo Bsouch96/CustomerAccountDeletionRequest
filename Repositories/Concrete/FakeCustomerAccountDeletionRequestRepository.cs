@@ -32,7 +32,23 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
             if (ID < 1)
                 return null;
 
-            return await Task.FromResult(_deletionRequests.FirstOrDefault(d => d.CustomerID == ID));
+            DeletionRequestModel deletionRequestModel = _deletionRequests.FirstOrDefault(d => d.CustomerID == ID);
+
+            if (deletionRequestModel == null)
+                return null;
+
+            DeletionRequestModel returnableDeletionRequestModel = new DeletionRequestModel()
+            {
+                CustomerID = deletionRequestModel.CustomerID,
+                StaffID = deletionRequestModel.StaffID,
+                DateApproved = deletionRequestModel.DateApproved,
+                DateRequested = deletionRequestModel.DateRequested,
+                DeletionReason = deletionRequestModel.DeletionReason,
+                DeletionRequestID = deletionRequestModel.DeletionRequestID,
+                DeletionRequestStatus = deletionRequestModel.DeletionRequestStatus
+            };
+
+            return await Task.FromResult(returnableDeletionRequestModel);
         }
 
         public DeletionRequestModel CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
