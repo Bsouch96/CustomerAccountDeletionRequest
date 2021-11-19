@@ -1,5 +1,7 @@
-﻿using CustomerAccountDeletionRequest.DomainModels;
+﻿using CustomerAccountDeletionRequest.CustomExceptionMiddleware;
+using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,12 +32,12 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
         {
             if (ID < 1)
-                return null;
+                throw new ArgumentOutOfRangeException("The ID passed to the server cannot be less than 0.", nameof(ArgumentOutOfRangeException));
 
             DeletionRequestModel deletionRequestModel = _deletionRequests.FirstOrDefault(d => d.CustomerID == ID);
 
             if (deletionRequestModel == null)
-                return null;
+                throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
 
             DeletionRequestModel returnableDeletionRequestModel = new DeletionRequestModel()
             {
@@ -53,6 +55,9 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
 
         public DeletionRequestModel CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
+            if (deletionRequestModel == null)
+                throw new ArgumentNullException("The entity to be created cannot be null.", nameof(ArgumentNullException));
+
             int deletionRequestID = (_deletionRequests.Count + 1);
             deletionRequestModel.DeletionRequestID = deletionRequestID;
 
@@ -63,6 +68,9 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
 
         public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
+            if (deletionRequestModel == null)
+                throw new ArgumentNullException("The entity to be updated cannot be null.", nameof(ArgumentNullException));
+
             var productReviewModelOld = _deletionRequests.FirstOrDefault(r => r.CustomerID == deletionRequestModel.CustomerID);
             _deletionRequests.Remove(productReviewModelOld);
             _deletionRequests.Add(deletionRequestModel);

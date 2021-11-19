@@ -11,6 +11,7 @@ using System;
 using Newtonsoft.Json.Serialization;
 using Invoices.Helpers.Interface;
 using Invoices.Helpers.Concrete;
+using CustomerAccountDeletionRequest.Extensions;
 
 namespace CustomerAccountDeletionRequest
 {
@@ -58,7 +59,11 @@ namespace CustomerAccountDeletionRequest
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                
+            }
+app.ConfigureCustomExceptionMiddleware();
             app.UseHttpsRedirection();
 
             app.UseRouting();

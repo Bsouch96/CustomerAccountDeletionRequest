@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CustomerAccountDeletionRequest.CustomExceptionMiddleware;
 using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.DTOs;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
@@ -67,7 +68,7 @@ namespace CustomerAccountDeletionRequest.Controllers
                     return Ok(_mapper.Map<DeletionRequestReadDTO>(deletionRequestModel));
                 }
 
-                return NotFound();
+                throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
             }
 
             //If cache has expired, get entity from DB and return it.
@@ -75,8 +76,8 @@ namespace CustomerAccountDeletionRequest.Controllers
 
             if (deletionRequestModel != null)
                 return Ok(_mapper.Map<DeletionRequestReadDTO>(deletionRequestModel));
-                
-            return NotFound();
+
+            throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         public async Task<ActionResult> CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
         {
             if (deletionRequestCreateDTO == null)
-                return BadRequest();
+                throw new ArgumentNullException("The entity to be created cannot be null.", nameof(ArgumentNullException));
 
             var deletionRequestModel = _mapper.Map<DeletionRequestModel>(deletionRequestCreateDTO);
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
@@ -116,7 +117,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         {
             var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
             if (deletionRequestModel == null)
-                return NotFound();
+                throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
 
             var newDeletionRequest = _mapper.Map<DeletionRequestApproveDTO>(deletionRequestModel);
             deletionRequestApprovePatch.ApplyTo(newDeletionRequest, ModelState);

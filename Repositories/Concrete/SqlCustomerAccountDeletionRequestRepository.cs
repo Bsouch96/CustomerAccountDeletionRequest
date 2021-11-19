@@ -1,7 +1,9 @@
 ﻿using CustomerAccountDeletionRequest.Context;
+using CustomerAccountDeletionRequest.CustomExceptionMiddleware;
 using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,18 +25,27 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
 
         public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
         {
-            return await _context._deletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID);
+            if (ID < 1)
+                throw new ArgumentOutOfRangeException("The ID passed to the server cannot be less than 0.", nameof(ArgumentOutOfRangeException));
+
+            return await _context._deletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID) ?? throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
         }
 
         public DeletionRequestModel CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
+            if(deletionRequestModel == null)
+                throw new ArgumentNullException("The entity to be created cannot be null.", nameof(ArgumentNullException));
             return _context.Add(deletionRequestModel).Entity;
         }
 
         public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
-            _context._deletionRequestContext.Update(deletionRequestModel);
+            if (deletionRequestModel == null)
+                throw new ArgumentNullException("The entity to be updated cannot be null.", nameof(ArgumentNullException));
+
             //EF tracks the changes of updates. It pushes them to the DB when SaveChangesAsync() has been called.
+            _context._deletionRequestContext.Update(deletionRequestModel);
+            
         }
 
         public async Task SaveChangesAsync()
