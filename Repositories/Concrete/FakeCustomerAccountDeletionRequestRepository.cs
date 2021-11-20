@@ -32,7 +32,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
         {
             if (ID < 1)
-                throw new ArgumentOutOfRangeException("The ID passed to the server cannot be less than 0.", nameof(ArgumentOutOfRangeException));
+                throw new ArgumentOutOfRangeException("IDs cannot be less than 0.", nameof(ArgumentOutOfRangeException));
 
             DeletionRequestModel deletionRequestModel = _deletionRequests.FirstOrDefault(d => d.CustomerID == ID);
 

@@ -26,7 +26,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         public async Task<DeletionRequestModel> GetDeletionRequestAsync(int ID)
         {
             if (ID < 1)
-                throw new ArgumentOutOfRangeException("The ID passed to the server cannot be less than 0.", nameof(ArgumentOutOfRangeException));
+                throw new ArgumentOutOfRangeException("IDs cannot be less than 0.", nameof(ArgumentOutOfRangeException));
 
             return await _context._deletionRequestContext.FirstOrDefaultAsync(d => d.CustomerID == ID) ?? throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
         }

@@ -51,6 +51,8 @@ namespace CustomerAccountDeletionRequest.Controllers
         [HttpGet("{ID}")]
         public async Task<ActionResult<DeletionRequestReadDTO>> GetDeletionRequest(int ID)
         {
+            if (ID < 1)
+                throw new ArgumentOutOfRangeException("IDs cannot be less than 0.", nameof(ArgumentOutOfRangeException));
             DeletionRequestModel deletionRequestModel;
             //If cache exists and we find the entity.
             if (_memoryCache.TryGetValue("CustomerAccountDeletionRequests", out List<DeletionRequestModel> deletionRequestCacheValues))
@@ -112,9 +114,15 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// <param name="ID">The ID of the customer account that will have their account request approved.</param>
         /// <returns></returns>
         [Route("Approve/{ID}")]
-        [HttpPut]
+        [HttpPatch]
         public async Task<ActionResult> ApproveDeletionRequest(int ID, JsonPatchDocument<DeletionRequestApproveDTO> deletionRequestApprovePatch)
         {
+            if (ID < 1)
+                throw new ArgumentOutOfRangeException("IDs cannot be less than 0.", nameof(ArgumentOutOfRangeException));
+
+            if (deletionRequestApprovePatch == null)
+                throw new ArgumentNullException("The entity used to update cannot be null.", nameof(ArgumentNullException));
+
             var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
             if (deletionRequestModel == null)
                 throw new ResourceNotFoundException("A resource for ID: " + ID + " does not exist.");
