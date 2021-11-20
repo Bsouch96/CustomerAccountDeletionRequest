@@ -53,6 +53,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         {
             if (ID < 1)
                 throw new ArgumentOutOfRangeException("IDs cannot be less than 0.", nameof(ArgumentOutOfRangeException));
+
             DeletionRequestModel deletionRequestModel;
             //If cache exists and we find the entity.
             if (_memoryCache.TryGetValue("CustomerAccountDeletionRequests", out List<DeletionRequestModel> deletionRequestCacheValues))
@@ -92,7 +93,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         public async Task<ActionResult> CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
         {
             if (deletionRequestCreateDTO == null)
-                throw new ArgumentNullException("The entity to be created cannot be null.", nameof(ArgumentNullException));
+                throw new ArgumentNullException("The deletion request to be created cannot be null.", nameof(ArgumentNullException));
 
             var deletionRequestModel = _mapper.Map<DeletionRequestModel>(deletionRequestCreateDTO);
             deletionRequestModel.DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision;
@@ -121,7 +122,7 @@ namespace CustomerAccountDeletionRequest.Controllers
                 throw new ArgumentOutOfRangeException("IDs cannot be less than 0.", nameof(ArgumentOutOfRangeException));
 
             if (deletionRequestApprovePatch == null)
-                throw new ArgumentNullException("The entity used to update cannot be null.", nameof(ArgumentNullException));
+                throw new ArgumentNullException("The deletion request used to update cannot be null.", nameof(ArgumentNullException));
 
             var deletionRequestModel = await _customerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
             if (deletionRequestModel == null)

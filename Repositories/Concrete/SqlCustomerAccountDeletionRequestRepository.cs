@@ -34,18 +34,16 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         public DeletionRequestModel CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
             if(deletionRequestModel == null)
-                throw new ArgumentNullException("The entity to be created cannot be null.", nameof(ArgumentNullException));
+                throw new ArgumentNullException("The deletion request to be created cannot be null.", nameof(ArgumentNullException));
             return _context.Add(deletionRequestModel).Entity;
         }
 
         public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
             if (deletionRequestModel == null)
-                throw new ArgumentNullException("The entity to be updated cannot be null.", nameof(ArgumentNullException));
+                throw new ArgumentNullException("The deletion request to be updated cannot be null.", nameof(ArgumentNullException));
 
-            //EF tracks the changes of updates. It pushes them to the DB when SaveChangesAsync() has been called.
             _context._deletionRequestContext.Update(deletionRequestModel);
-            
         }
 
         public async Task SaveChangesAsync()

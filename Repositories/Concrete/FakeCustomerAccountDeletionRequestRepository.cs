@@ -56,7 +56,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         public DeletionRequestModel CreateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
             if (deletionRequestModel == null)
-                throw new ArgumentNullException("The entity to be created cannot be null.", nameof(ArgumentNullException));
+                throw new ArgumentNullException("The deletion request to be created cannot be null.", nameof(ArgumentNullException));
 
             int deletionRequestID = (_deletionRequests.Count + 1);
             deletionRequestModel.DeletionRequestID = deletionRequestID;
@@ -69,7 +69,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         public void UpdateDeletionRequest(DeletionRequestModel deletionRequestModel)
         {
             if (deletionRequestModel == null)
-                throw new ArgumentNullException("The entity to be updated cannot be null.", nameof(ArgumentNullException));
+                throw new ArgumentNullException("The deletion request to be updated cannot be null.", nameof(ArgumentNullException));
 
             var productReviewModelOld = _deletionRequests.FirstOrDefault(r => r.CustomerID == deletionRequestModel.CustomerID);
             _deletionRequests.Remove(productReviewModelOld);
