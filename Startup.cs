@@ -12,6 +12,7 @@ using Newtonsoft.Json.Serialization;
 using Invoices.Helpers.Interface;
 using Invoices.Helpers.Concrete;
 using CustomerAccountDeletionRequest.Extensions;
+using CustomerAccountDeletionRequest.Models;
 
 namespace CustomerAccountDeletionRequest
 {
@@ -40,16 +41,18 @@ namespace CustomerAccountDeletionRequest
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMemoryCache();
 
-            /*if(_environment.IsDevelopment())
+            if (_environment.IsDevelopment())
             {
-                services.AddTransient<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
+                services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
             }
             else
             {
-                services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
-            }*/
-            services.AddSingleton<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
+                services.AddTransient<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
+                
+            }
+
             services.AddSingleton<IMemoryCacheAutomater, MemoryCacheAutomater>();
+            services.Configure<MemoryCacheModel>(Configuration.GetSection("MemoryCache"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
