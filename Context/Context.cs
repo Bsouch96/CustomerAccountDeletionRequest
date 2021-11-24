@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CustomerAccountDeletionRequest.Context
 {
-    public class CustomerAccountDeletionRequestContext : DbContext
+    public class Context : DbContext
     {
-        public DbSet<DeletionRequestModel> DeletionRequestContext { get; set; }
+        public DbSet<DeletionRequestModel> _deletionRequestContext { get; set; }
 
-        public CustomerAccountDeletionRequestContext(DbContextOptions<CustomerAccountDeletionRequestContext>
+        public Context(DbContextOptions<Context>
             options) : base(options)
         {
 
