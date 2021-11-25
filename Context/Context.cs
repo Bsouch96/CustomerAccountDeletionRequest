@@ -24,7 +24,7 @@ namespace CustomerAccountDeletionRequest.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<DeletionRequestModel>().ToTable(_optionsMonitor.CurrentValue.TableName, "Staging")
-                .HasData(
+                .HasData( 
                     new DeletionRequestModel { DeletionRequestID = 1, CustomerID = 1, DeletionReason = "Staging Terrible Site.", DateRequested = new System.DateTime(2010, 10, 01, 8, 5, 3), DateApproved = new System.DateTime(1, 1, 1, 0, 0, 0), StaffID = 1, DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
                     new DeletionRequestModel { DeletionRequestID = 2, CustomerID = 2, DeletionReason = "Staging Prefer Amazon.", DateRequested = new System.DateTime(2012, 01, 02, 10, 3, 45), DateApproved = new System.DateTime(1, 1, 1, 0, 0, 0), StaffID = 1, DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
                     new DeletionRequestModel { DeletionRequestID = 3, CustomerID = 3, DeletionReason = "Staging Too many clicks.", DateRequested = new System.DateTime(2013, 02, 03, 12, 2, 40), DateApproved = new System.DateTime(1, 1, 1, 0, 0, 0), StaffID = 2, DeletionRequestStatus = Enums.DeletionRequestStatusEnum.AwaitingDecision },
