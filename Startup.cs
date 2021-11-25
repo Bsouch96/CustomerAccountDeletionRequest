@@ -31,7 +31,7 @@ namespace CustomerAccountDeletionRequest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Context.Context>(options => options.UseSqlServer
-            (Configuration.GetConnectionString("CustomerAccountDeletionRequestConnection")));
+            (Configuration.GetConnectionString("ThamcoConnectionString")));
 
             services.AddControllers().AddNewtonsoftJson(j =>
             {
@@ -43,11 +43,11 @@ namespace CustomerAccountDeletionRequest
 
             if (_environment.IsDevelopment())
             {
-                services.AddScoped<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
+                services.AddSingleton<ICustomerAccountDeletionRequestRepository, FakeCustomerAccountDeletionRequestRepository>();
             }
             else
             {
-                services.AddTransient<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
+                services.AddScoped<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
             }
 
             services.AddSingleton<IMemoryCacheAutomater, MemoryCacheAutomater>();

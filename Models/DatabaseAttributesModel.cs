@@ -8,5 +8,6 @@ namespace CustomerAccountDeletionRequest.Models
     public class DatabaseAttributesModel
     {
         public string Schema { get; set; }
+        public string TableName { get; set; }
     }
 }
