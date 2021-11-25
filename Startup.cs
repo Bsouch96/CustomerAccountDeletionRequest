@@ -48,15 +48,15 @@ namespace CustomerAccountDeletionRequest
             else
             {
                 services.AddTransient<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
-                
             }
 
             services.AddSingleton<IMemoryCacheAutomater, MemoryCacheAutomater>();
             services.Configure<MemoryCacheModel>(Configuration.GetSection("MemoryCache"));
+            services.Configure<DatabaseAttributesModel>(Configuration.GetSection("DatabaseAttributes"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMemoryCacheAutomater memoryCacheAutomater)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMemoryCacheAutomater memoryCacheAutomater, Context.Context context)
         {
             if (env.IsDevelopment())
             {
@@ -64,9 +64,11 @@ namespace CustomerAccountDeletionRequest
             }
             else
             {
-                
+                context.Database.Migrate();
             }
-app.ConfigureCustomExceptionMiddleware();
+
+            app.ConfigureCustomExceptionMiddleware();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
