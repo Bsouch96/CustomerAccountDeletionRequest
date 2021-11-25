@@ -64,9 +64,8 @@ namespace CustomerAccountDeletionRequest
             else
             {
                 context.Database.Migrate();
+                app.ConfigureCustomExceptionMiddleware();
             }
-
-            app.ConfigureCustomExceptionMiddleware();
 
             app.UseHttpsRedirection();
 
