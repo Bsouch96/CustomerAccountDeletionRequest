@@ -52,7 +52,6 @@ namespace CustomerAccountDeletionRequest
 
             services.AddSingleton<IMemoryCacheAutomater, MemoryCacheAutomater>();
             services.Configure<MemoryCacheModel>(Configuration.GetSection("MemoryCache"));
-            services.Configure<DatabaseAttributesModel>(Configuration.GetSection("DatabaseAttributes"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

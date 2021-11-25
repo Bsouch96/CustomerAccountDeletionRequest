@@ -47,7 +47,7 @@ namespace CustomerAccountDeletionRequest.Migrations
 
                     b.HasKey("DeletionRequestID");
 
-                    b.ToTable("DeletionRequest", "Production");
+                    b.ToTable("_deletionRequestContext");
 
                     b.HasData(
                         new
@@ -56,7 +56,7 @@ namespace CustomerAccountDeletionRequest.Migrations
                             CustomerID = 1,
                             DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateRequested = new DateTime(2010, 10, 1, 8, 5, 3, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Staging Terrible Site.",
+                            DeletionReason = "Terrible Site.",
                             DeletionRequestStatus = 1,
                             StaffID = 1
                         },
@@ -66,7 +66,7 @@ namespace CustomerAccountDeletionRequest.Migrations
                             CustomerID = 2,
                             DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateRequested = new DateTime(2012, 1, 2, 10, 3, 45, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Staging Prefer Amazon.",
+                            DeletionReason = "Prefer Amazon.",
                             DeletionRequestStatus = 1,
                             StaffID = 1
                         },
@@ -76,7 +76,7 @@ namespace CustomerAccountDeletionRequest.Migrations
                             CustomerID = 3,
                             DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateRequested = new DateTime(2013, 2, 3, 12, 2, 40, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Staging Too many clicks.",
+                            DeletionReason = "Too many clicks.",
                             DeletionRequestStatus = 1,
                             StaffID = 2
                         },
@@ -86,7 +86,7 @@ namespace CustomerAccountDeletionRequest.Migrations
                             CustomerID = 4,
                             DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateRequested = new DateTime(2014, 3, 4, 14, 1, 35, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Staging Scammed into signing up.",
+                            DeletionReason = "Scammed into signing up.",
                             DeletionRequestStatus = 1,
                             StaffID = 3
                         },
@@ -96,57 +96,7 @@ namespace CustomerAccountDeletionRequest.Migrations
                             CustomerID = 5,
                             DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateRequested = new DateTime(2007, 4, 5, 16, 50, 30, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Staging If Wish was built by students...",
-                            DeletionRequestStatus = 1,
-                            StaffID = 4
-                        },
-                        new
-                        {
-                            DeletionRequestID = 6,
-                            CustomerID = 1,
-                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateRequested = new DateTime(2010, 10, 1, 8, 5, 3, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Production Terrible Site.",
-                            DeletionRequestStatus = 1,
-                            StaffID = 1
-                        },
-                        new
-                        {
-                            DeletionRequestID = 7,
-                            CustomerID = 2,
-                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateRequested = new DateTime(2012, 1, 2, 10, 3, 45, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Production Prefer Amazon.",
-                            DeletionRequestStatus = 1,
-                            StaffID = 1
-                        },
-                        new
-                        {
-                            DeletionRequestID = 8,
-                            CustomerID = 3,
-                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateRequested = new DateTime(2013, 2, 3, 12, 2, 40, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Production Too many clicks.",
-                            DeletionRequestStatus = 1,
-                            StaffID = 2
-                        },
-                        new
-                        {
-                            DeletionRequestID = 9,
-                            CustomerID = 4,
-                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateRequested = new DateTime(2014, 3, 4, 14, 1, 35, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Production Scammed into signing up.",
-                            DeletionRequestStatus = 1,
-                            StaffID = 3
-                        },
-                        new
-                        {
-                            DeletionRequestID = 10,
-                            CustomerID = 5,
-                            DateApproved = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateRequested = new DateTime(2007, 4, 5, 16, 50, 30, 0, DateTimeKind.Unspecified),
-                            DeletionReason = "Production If Wish was built by students...",
+                            DeletionReason = "If Wish was built by students...",
                             DeletionRequestStatus = 1,
                             StaffID = 4
                         });
