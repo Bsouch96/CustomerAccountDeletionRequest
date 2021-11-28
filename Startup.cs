@@ -13,6 +13,7 @@ using Invoices.Helpers.Interface;
 using Invoices.Helpers.Concrete;
 using CustomerAccountDeletionRequest.Extensions;
 using CustomerAccountDeletionRequest.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CustomerAccountDeletionRequest
 {
@@ -40,6 +41,16 @@ namespace CustomerAccountDeletionRequest
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMemoryCache();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
+                options.Audience = Configuration["Auth0:Audience"];
+            });
 
             if (_environment.IsDevelopment())
             {
@@ -70,6 +81,8 @@ namespace CustomerAccountDeletionRequest
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
