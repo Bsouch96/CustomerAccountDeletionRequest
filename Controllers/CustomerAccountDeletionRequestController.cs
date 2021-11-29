@@ -4,6 +4,7 @@ using CustomerAccountDeletionRequest.DomainModels;
 using CustomerAccountDeletionRequest.DTOs;
 using CustomerAccountDeletionRequest.Models;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -37,6 +38,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// GET all deletion requests.
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeletionRequestReadDTO>>> GetAllDeletionRequests()
         {
@@ -52,6 +54,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// </summary>
         /// <param name="ID">Represents the customer's ID and is used to get their deletion request.</param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("{ID}")]
         public async Task<ActionResult<DeletionRequestReadDTO>> GetDeletionRequest(int ID)
         {
@@ -92,6 +95,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// </summary>
         /// <param name="deletionRequestCreateDTO">The parameters supplied to create a deletion request by the POSTing API.</param>
         /// <returns></returns>
+        [Authorize]
         [Route("Create")]
         [HttpPost]
         public async Task<ActionResult> CreateDeletionRequest([FromBody] DeletionRequestCreateDTO deletionRequestCreateDTO)
@@ -118,6 +122,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// </summary>
         /// <param name="ID">The ID of the customer account that will have their account request approved.</param>
         /// <returns></returns>
+        [Authorize]
         [Route("Approve/{ID}")]
         [HttpPatch]
         public async Task<ActionResult> ApproveDeletionRequest(int ID, JsonPatchDocument<DeletionRequestApproveDTO> deletionRequestApprovePatch)
