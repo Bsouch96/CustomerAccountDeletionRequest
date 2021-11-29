@@ -22,15 +22,15 @@ namespace CustomerAccountDeletionRequest.Controllers
         private readonly ICustomerAccountDeletionRequestRepository _customerAccountDeletionRequestRepository;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
-        private readonly IOptionsMonitor<MemoryCacheModel> _optionsMonitor;
+        private readonly MemoryCacheModel _memoryCacheModel;
 
         public CustomerAccountDeletionRequestController(ICustomerAccountDeletionRequestRepository customerAccountDeletionRequestRepository,
-            IMapper mapper, IMemoryCache memoryCache, IOptionsMonitor<MemoryCacheModel> optionsMonitor)
+            IMapper mapper, IMemoryCache memoryCache, IOptions<MemoryCacheModel> memoryCacheModel)
         {
             _customerAccountDeletionRequestRepository = customerAccountDeletionRequestRepository;
             _mapper = mapper;
             _memoryCache = memoryCache;
-            _optionsMonitor = optionsMonitor;
+            _memoryCacheModel = memoryCacheModel.Value;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeletionRequestReadDTO>>> GetAllDeletionRequests()
         {
-            if(_memoryCache.TryGetValue(_optionsMonitor.CurrentValue.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
+            if(_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
                 return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestValues));
 
             var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllAwaitingDeletionRequestsAsync();
@@ -60,7 +60,7 @@ namespace CustomerAccountDeletionRequest.Controllers
 
             DeletionRequestModel deletionRequestModel;
             //If cache exists and we find the entity.
-            if (_memoryCache.TryGetValue(_optionsMonitor.CurrentValue.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestCacheValues))
+            if (_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestCacheValues))
             {   
                 //Return the entity if we find it in the cache.
                 deletionRequestModel = deletionRequestCacheValues.Find(delReq => delReq.CustomerID == ID);
@@ -106,7 +106,7 @@ namespace CustomerAccountDeletionRequest.Controllers
             DeletionRequestModel newDeletionRequest = _customerAccountDeletionRequestRepository.CreateDeletionRequest(deletionRequestModel);
             await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
-            if(_memoryCache.TryGetValue(_optionsMonitor.CurrentValue.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
+            if(_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
                 deletionRequestValues.Add(newDeletionRequest);
 
             return CreatedAtAction(nameof(GetDeletionRequest), new { ID = newDeletionRequest.CustomerID }, newDeletionRequest);
@@ -146,7 +146,7 @@ namespace CustomerAccountDeletionRequest.Controllers
             _customerAccountDeletionRequestRepository.UpdateDeletionRequest(deletionRequestModel);
             await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
-            if (_memoryCache.TryGetValue(_optionsMonitor.CurrentValue.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
+            if (_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
             {
                 deletionRequestValues.RemoveAll(delReq => delReq.CustomerID == deletionRequestModel.CustomerID);
                 deletionRequestValues.Add(deletionRequestModel);

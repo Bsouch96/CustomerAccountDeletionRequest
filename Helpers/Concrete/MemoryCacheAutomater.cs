@@ -1,7 +1,9 @@
 ﻿using CustomerAccountDeletionRequest.DomainModels;
+using CustomerAccountDeletionRequest.Models;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
 using Invoices.Helpers.Interface;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -12,17 +14,20 @@ namespace Invoices.Helpers.Concrete
     public class MemoryCacheAutomater : IMemoryCacheAutomater
     {
         private readonly ICustomerAccountDeletionRequestRepository _customerAccountDeletionRequestRepository;
-        public readonly IMemoryCache _memoryCache;
+        private readonly IMemoryCache _memoryCache;
+        private readonly MemoryCacheModel _memoryCacheModel;
 
-        public MemoryCacheAutomater(ICustomerAccountDeletionRequestRepository customerAccountDeletionRequestRepository, IMemoryCache memoryCache)
+        public MemoryCacheAutomater(ICustomerAccountDeletionRequestRepository customerAccountDeletionRequestRepository, IMemoryCache memoryCache,
+            IOptions<MemoryCacheModel> memoryCacheModel)
         {
             _customerAccountDeletionRequestRepository = customerAccountDeletionRequestRepository;
             _memoryCache = memoryCache;
+            _memoryCacheModel = memoryCacheModel.Value;
         }
 
         public void AutomateCache()
         {
-            RegisterCache("CustomerAccountDeletionRequests", null, EvictionReason.None, null);
+            RegisterCache(_memoryCacheModel.CustomerAccountDeletionRequests, null, EvictionReason.None, null);
         }
 
         private MemoryCacheEntryOptions GetMemoryCacheEntryOptions()
