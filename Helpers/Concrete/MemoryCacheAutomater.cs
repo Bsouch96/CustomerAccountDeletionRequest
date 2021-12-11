@@ -3,6 +3,7 @@ using CustomerAccountDeletionRequest.Models;
 using CustomerAccountDeletionRequest.Repositories.Interfaces;
 using Invoices.Helpers.Interface;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System;
@@ -17,10 +18,10 @@ namespace Invoices.Helpers.Concrete
         private readonly IMemoryCache _memoryCache;
         private readonly MemoryCacheModel _memoryCacheModel;
 
-        public MemoryCacheAutomater(ICustomerAccountDeletionRequestRepository customerAccountDeletionRequestRepository, IMemoryCache memoryCache,
+        public MemoryCacheAutomater(IServiceScopeFactory serviceProvider, IMemoryCache memoryCache,
             IOptions<MemoryCacheModel> memoryCacheModel)
         {
-            _customerAccountDeletionRequestRepository = customerAccountDeletionRequestRepository;
+            _customerAccountDeletionRequestRepository = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ICustomerAccountDeletionRequestRepository>();
             _memoryCache = memoryCache;
             _memoryCacheModel = memoryCacheModel.Value;
         }
