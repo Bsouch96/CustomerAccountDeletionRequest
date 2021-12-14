@@ -69,6 +69,18 @@ namespace CustomerAccountDeletionRequest
                 services.AddScoped<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
             }
 
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("ReadAllCustomerAccountDeletionRequests", policy =>
+                    policy.RequireClaim("permissions", "read:customer_account_deletion_requests"));
+                o.AddPolicy("ReadCustomerAccountDeletionRequest", policy =>
+                    policy.RequireClaim("permissions", "read:product_review"));
+                o.AddPolicy("CreateCustomerAccountDeletionRequest", policy =>
+                    policy.RequireClaim("permissions", "add:customer_account_deletion_request"));
+                o.AddPolicy("UpdateCustomerAccountDeletionRequest", policy =>
+                    policy.RequireClaim("permissions", "edit:customer_account_deletion_requests"));
+            });
+
             services.AddSingleton<IMemoryCacheAutomater, MemoryCacheAutomater>();
             services.Configure<MemoryCacheModel>(Configuration.GetSection("MemoryCache"));
         }
