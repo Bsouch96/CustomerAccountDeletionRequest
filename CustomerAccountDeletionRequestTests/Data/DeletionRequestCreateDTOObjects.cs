@@ -9,10 +9,7 @@ namespace CustomerAccountDeletionRequestTests.Data
     /// </summary>
     public class DeletionRequestCreateDTOObjects
     {
-        public DeletionRequestCreateDTOObjects()
-        {
-
-        }
+        public DeletionRequestCreateDTOObjects(){}
 
         /// <summary>
         /// Used to provide a list of test objects.

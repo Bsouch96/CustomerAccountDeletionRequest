@@ -11,12 +11,14 @@ namespace CustomerAccountDeletionRequest.Context
 {
     public class Context : DbContext
     {
-        public DbSet<DeletionRequestModel> _deletionRequestContext { get; set; }
+        public virtual DbSet<DeletionRequestModel> _deletionRequestContext { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
 
         }
+
+        public Context(){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

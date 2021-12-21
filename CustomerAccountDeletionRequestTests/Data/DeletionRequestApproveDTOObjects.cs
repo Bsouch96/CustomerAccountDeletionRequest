@@ -9,18 +9,14 @@ namespace CustomerAccountDeletionRequestTests.Data
     /// </summary>
     public class DeletionRequestApproveDTOObjects
     {
-        public DeletionRequestApproveDTOObjects()
-        {
-
-        }
+        public DeletionRequestApproveDTOObjects(){}
 
         /// <summary>
         /// Used to provide a list of test objects.
+        /// Array Args 1: CustomerID - Any Int32 > 0
+        /// Array Args 2: StaffID - Any Int32 > 0
         /// </summary>
-        /// <returns>
-        /// Array Args 1: ID - Any Int32 > 0
-        /// Array Args 2: Value - Any Int32 > 0
-        /// </returns>
+        /// <returns></returns>
         public static IEnumerable<Object[]> GetDeletionRequestApproveDTOObjects()
         {
             return new List<Object[]>
