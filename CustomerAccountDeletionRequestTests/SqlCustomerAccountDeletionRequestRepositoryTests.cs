@@ -211,19 +211,17 @@ namespace CustomerAccountDeletionRequestTests
             var exception = Assert.Throws<ArgumentNullException>(() => sqlCustomerAccountDeletionRequestRepository.UpdateDeletionRequest(deletionRequestModel));
             Assert.Equal("The deletion request to be updated cannot be null. (Parameter 'deletionRequestModel')", exception.Message);
         }
-
+        
         [Theory, MemberData(nameof(DeletionRequestModelObjects.GetDeletionRequestModelUpdateObjects),
                  MemberType = typeof(DeletionRequestModelObjects))]
-        public async void UpdateDeletionRequest_ShouldUpdateDeletionRequest(int ID, string DeletionReason, DateTime DateRequested,
+        public void UpdateDeletionRequest_ShouldUpdateDeletionRequest(int ID, string DeletionReason, DateTime DateRequested,
             DateTime DateApproved, int StaffID, DeletionRequestStatusEnum DeletionRequestStatus, int DeletionRequestID)
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<Context>()
-                        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                        .Options;
-            var dbContextMock = new Context(options);
-            dbContextMock._deletionRequestContext.AddRange(GetDeletionRequests());
-            await dbContextMock.SaveChangesAsync();
+            var dbContextMock = GetDbContext();
+            var dbSetMock = GetMockDbSet();
+            dbContextMock.SetupGet(c => c._deletionRequestContext).Returns(dbSetMock.Object);
+            var sqlCustomerAccountDeletionRequestRepository = new SqlCustomerAccountDeletionRequestRepository(dbContextMock.Object);
             DeletionRequestModel deletionRequestModel = new DeletionRequestModel()
             {
                 CustomerID = ID,
@@ -234,30 +232,28 @@ namespace CustomerAccountDeletionRequestTests
                 DeletionRequestStatus = DeletionRequestStatus,
                 DeletionRequestID = DeletionRequestID
             };
-            
-            DeletionRequestModel expectedDeletionRequestModel = new DeletionRequestModel()
-            {
-                CustomerID = ID,
-                DeletionReason = DeletionReason,
-                DateRequested = DateRequested,
-                DateApproved = DateApproved,
-                StaffID = StaffID,
-                DeletionRequestStatus = DeletionRequestStatus,
-                DeletionRequestID = DeletionRequestID
-            };
-
-            var sqlCustomerAccountDeletionRequestRepository = new SqlCustomerAccountDeletionRequestRepository(dbContextMock);
 
             //Act
-            //Update deletion request
             sqlCustomerAccountDeletionRequestRepository.UpdateDeletionRequest(deletionRequestModel);
-            var result = sqlCustomerAccountDeletionRequestRepository.GetDeletionRequestAsync(ID);
 
             //Assert
-            var actionResult = Assert.IsType<DeletionRequestModel>(result);
-            DeletionRequestModel deletionRequestModelResult = Assert.IsAssignableFrom<DeletionRequestModel>(actionResult);
-            deletionRequestModelResult.Should().NotBeNull();
-            deletionRequestModelResult.Should().BeEquivalentTo(expectedDeletionRequestModel);
+            dbSetMock.Verify(r => r.Update(It.IsAny<DeletionRequestModel>()), Times.Once);
+        }
+
+        [Fact]
+        public async void SaveChangesAsync_ShouldOnlySaveOnce()
+        {
+            //Arrange
+            var dbContextMock = GetDbContext();
+            var dbSetMock = GetMockDbSet();
+            dbContextMock.Setup(c => c.SaveChangesAsync(It.IsAny< CancellationToken>())).Returns(Task.FromResult(1)).Verifiable();
+            var sqlCustomerAccountDeletionRequestRepository = new SqlCustomerAccountDeletionRequestRepository(dbContextMock.Object);
+
+            //Act
+            await sqlCustomerAccountDeletionRequestRepository.SaveChangesAsync();
+
+            //Assert
+            dbContextMock.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
