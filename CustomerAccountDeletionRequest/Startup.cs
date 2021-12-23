@@ -20,28 +20,37 @@ namespace CustomerAccountDeletionRequest
     public class Startup
     {
         private readonly IWebHostEnvironment _environment;
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             _environment = environment;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context.Context>(options => options.UseSqlServer
-                (Configuration.GetConnectionString("ThamcoConnectionString"),
-                    sqlServerOptionsAction: sqlOptions => sqlOptions.EnableRetryOnFailure
-                    (
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(2),
-                        errorNumbersToAdd: null
+            if(_environment.IsDevelopment())
+            {
+                services.AddDbContext<Context.Context>(options => options.UseSqlServer("localhost"));
+            }
+            else if (_environment.IsStaging() || _environment.IsProduction())
+            {
+                services.AddDbContext<Context.Context>(options => options.UseSqlServer
+                    (Configuration.GetConnectionString("ThamcoConnectionString"),
+                        sqlServerOptionsAction: sqlOptions => sqlOptions.EnableRetryOnFailure
+                        (
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(2),
+                            errorNumbersToAdd: null
+                        )
                     )
-                )
-            );
+                );
+            }
 
+            SetupAuth(services);
+            
             services.AddControllers().AddNewtonsoftJson(j =>
             {
                 j.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -49,16 +58,6 @@ namespace CustomerAccountDeletionRequest
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMemoryCache();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
-                options.Audience = Configuration["Auth0:Audience"];
-            });
 
             if (_environment.IsDevelopment())
             {
@@ -68,18 +67,6 @@ namespace CustomerAccountDeletionRequest
             {
                 services.AddScoped<ICustomerAccountDeletionRequestRepository, SqlCustomerAccountDeletionRequestRepository>();
             }
-
-            services.AddAuthorization(o =>
-            {
-                o.AddPolicy("ReadAllCustomerAccountDeletionRequests", policy =>
-                    policy.RequireClaim("permissions", "read:customer_account_deletion_requests"));
-                o.AddPolicy("ReadCustomerAccountDeletionRequest", policy =>
-                    policy.RequireClaim("permissions", "read:product_review"));
-                o.AddPolicy("CreateCustomerAccountDeletionRequest", policy =>
-                    policy.RequireClaim("permissions", "add:customer_account_deletion_request"));
-                o.AddPolicy("UpdateCustomerAccountDeletionRequest", policy =>
-                    policy.RequireClaim("permissions", "edit:customer_account_deletion_requests"));
-            });
 
             services.AddSingleton<IMemoryCacheAutomater, MemoryCacheAutomater>();
             services.Configure<MemoryCacheModel>(Configuration.GetSection("MemoryCache"));
@@ -92,9 +79,14 @@ namespace CustomerAccountDeletionRequest
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+            else if(env.IsStaging() || env.IsProduction())
             {
                 context.Database.Migrate();
+                app.ConfigureCustomExceptionMiddleware();
+                memoryCacheAutomater.AutomateCache();
+            }
+            else
+            {
                 app.ConfigureCustomExceptionMiddleware();
             }
 
@@ -110,8 +102,31 @@ namespace CustomerAccountDeletionRequest
             {
                 endpoints.MapControllers();
             });
+        }
 
-            memoryCacheAutomater.AutomateCache();
+        private void SetupAuth(IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
+                options.Audience = Configuration["Auth0:Audience"];
+            });
+
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("ReadAllCustomerAccountDeletionRequests", policy =>
+                    policy.RequireClaim("permissions", "read:customer_account_deletion_requests"));
+                o.AddPolicy("ReadCustomerAccountDeletionRequest", policy =>
+                    policy.RequireClaim("permissions", "read:product_review"));
+                o.AddPolicy("CreateCustomerAccountDeletionRequest", policy =>
+                    policy.RequireClaim("permissions", "add:customer_account_deletion_request"));
+                o.AddPolicy("UpdateCustomerAccountDeletionRequest", policy =>
+                    policy.RequireClaim("permissions", "edit:customer_account_deletion_requests"));
+            });
         }
     }
 }

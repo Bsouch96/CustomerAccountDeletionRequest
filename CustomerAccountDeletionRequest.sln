@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAccountDeletionRequest", "CustomerAccountDeletionRequest\CustomerAccountDeletionRequest.csproj", "{91FAE50A-17A9-439D-B4D5-4A882AF67CA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAccountDeletionRequestTests", "CustomerAccountDeletionRequestTests\CustomerAccountDeletionRequestTests.csproj", "{3CA21231-C852-4CB7-9C48-4B4545F482CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAccountDeletionRequestUnitTests", "CustomerAccountDeletionRequestTests\CustomerAccountDeletionRequestUnitTests.csproj", "{3CA21231-C852-4CB7-9C48-4B4545F482CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeletionRequestIntegrationTests", "DeletionRequestIntegrationTests\DeletionRequestIntegrationTests.csproj", "{DEA0D6C0-1914-479D-AA48-A26F7FD880B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3CA21231-C852-4CB7-9C48-4B4545F482CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CA21231-C852-4CB7-9C48-4B4545F482CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CA21231-C852-4CB7-9C48-4B4545F482CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA0D6C0-1914-479D-AA48-A26F7FD880B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA0D6C0-1914-479D-AA48-A26F7FD880B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA0D6C0-1914-479D-AA48-A26F7FD880B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA0D6C0-1914-479D-AA48-A26F7FD880B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

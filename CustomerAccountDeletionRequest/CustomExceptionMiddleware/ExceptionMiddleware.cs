@@ -53,7 +53,7 @@ namespace CustomerAccountDeletionRequest.CustomExceptionMiddleware
             }
             catch(Exception ex)
             {
-                _logger.LogError("Unexpected ecxeption has occurred: " + ex);
+                _logger.LogError("Unexpected exception has occurred: " + ex);
                 await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, "Unable to process request. Please try again or contact support if this continues.");
             }
         }
