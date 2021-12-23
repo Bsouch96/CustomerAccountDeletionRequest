@@ -121,7 +121,7 @@ namespace CustomerAccountDeletionRequest
                 o.AddPolicy("ReadAllCustomerAccountDeletionRequests", policy =>
                     policy.RequireClaim("permissions", "read:customer_account_deletion_requests"));
                 o.AddPolicy("ReadCustomerAccountDeletionRequest", policy =>
-                    policy.RequireClaim("permissions", "read:product_review"));
+                    policy.RequireClaim("permissions", "read:customer_account_deletion_request"));
                 o.AddPolicy("CreateCustomerAccountDeletionRequest", policy =>
                     policy.RequireClaim("permissions", "add:customer_account_deletion_request"));
                 o.AddPolicy("UpdateCustomerAccountDeletionRequest", policy =>
