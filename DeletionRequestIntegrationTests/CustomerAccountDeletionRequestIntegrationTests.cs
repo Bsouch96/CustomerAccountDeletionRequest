@@ -38,6 +38,10 @@ namespace DeletionRequestIntegrationTests
                 .GetSection("Auth0");
         }
 
+        /// <summary>
+        /// Acquire the access token via the Auth0 API to comply with authorisation and authentication rules.
+        /// </summary>
+        /// <returns>An access token that can be used to access the deletion request's API endpoints</returns>
         private async Task<string> GetAccessToken()
         {
             var auth0Client = new AuthenticationApiClient(_auth0Settings["Domain"]);
@@ -52,6 +56,10 @@ namespace DeletionRequestIntegrationTests
             return tokenResponse.AccessToken;
         }
 
+        /// <summary>
+        /// Gets the expected deletion requests used for repo returns to isolate the controller.
+        /// </summary>
+        /// <returns>A list of DeletionRequestModel</returns>
         private List<DeletionRequestModel> GetDeletionRequests()
         {
             return new List<DeletionRequestModel>()

@@ -20,7 +20,7 @@ namespace CustomerAccountDeletionRequest
     public class Startup
     {
         private readonly IWebHostEnvironment _environment;
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration Configuration;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
@@ -85,7 +85,7 @@ namespace CustomerAccountDeletionRequest
                 app.ConfigureCustomExceptionMiddleware();
                 memoryCacheAutomater.AutomateCache();
             }
-            else
+            else if (_environment.IsEnvironment("IntegrationTests"))
             {
                 app.ConfigureCustomExceptionMiddleware();
             }

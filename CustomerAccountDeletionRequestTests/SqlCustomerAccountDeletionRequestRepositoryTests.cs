@@ -44,6 +44,10 @@ namespace CustomerAccountDeletionRequestTests
             };
         }
 
+        /// <summary>
+        /// Create a mock of the Context class seeded with DeletionRequestModels.
+        /// </summary>
+        /// <returns>A mock of type Context</returns>
         private Mock<Context> GetDbContext()
         {
             var context = new Mock<Context>();
@@ -53,6 +57,10 @@ namespace CustomerAccountDeletionRequestTests
             return context;
         }
 
+        /// <summary>
+        /// Create a mock DbSet of type DeletionRequestModel.
+        /// </summary>
+        /// <returns>A mock DbSet of type DeletionRequestModel</returns>
         private Mock<DbSet<DeletionRequestModel>> GetMockDbSet()
         {
             return GetDeletionRequests().AsQueryable().BuildMockDbSet();

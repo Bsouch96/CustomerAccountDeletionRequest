@@ -113,7 +113,9 @@ namespace CustomerAccountDeletionRequest.Controllers
             if(_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
                 deletionRequestValues.Add(newDeletionRequest);
 
-            return CreatedAtAction(nameof(GetDeletionRequest), new { ID = newDeletionRequest.CustomerID }, newDeletionRequest);
+            var deletionRequestReadDTO = _mapper.Map<DeletionRequestReadDTO>(newDeletionRequest);
+
+            return CreatedAtAction(nameof(GetDeletionRequest), new { ID = newDeletionRequest.CustomerID }, deletionRequestReadDTO);
         }
 
         /// <summary>

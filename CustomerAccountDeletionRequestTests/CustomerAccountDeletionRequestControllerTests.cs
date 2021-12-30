@@ -110,7 +110,7 @@ namespace CustomerAccountDeletionRequestTests
             var model = Assert.IsAssignableFrom<IEnumerable<DeletionRequestReadDTO>>(actionResult.Value);
             Assert.Equal(repoExpected.Count, model.Count());
             
-            mockDeletionRequestRepo.Verify(dr => dr.GetAllAwaitingDeletionRequestsAsync(), Times.AtMostOnce);
+            mockDeletionRequestRepo.Verify(dr => dr.GetAllAwaitingDeletionRequestsAsync(), Times.Once());
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace CustomerAccountDeletionRequestTests
             var actionResult = Assert.IsType<OkObjectResult>(result.Result);
             List<DeletionRequestReadDTO> model = Assert.IsAssignableFrom<IEnumerable<DeletionRequestReadDTO>>(actionResult.Value).ToList();
             model.Should().BeEquivalentTo(expected);
-            mockDeletionRequestRepo.Verify(dr => dr.GetAllAwaitingDeletionRequestsAsync(), Times.AtMostOnce);
+            mockDeletionRequestRepo.Verify(dr => dr.GetAllAwaitingDeletionRequestsAsync(), Times.Once());
         }
 
         [Fact]
@@ -363,7 +363,7 @@ namespace CustomerAccountDeletionRequestTests
 
             //Assert
             var actionResult = Assert.IsType<CreatedAtActionResult>(result);
-            DeletionRequestModel model = Assert.IsAssignableFrom<DeletionRequestModel>(actionResult.Value);
+            DeletionRequestReadDTO model = Assert.IsAssignableFrom<DeletionRequestReadDTO>(actionResult.Value);
         }
 
         [Fact]
@@ -414,7 +414,7 @@ namespace CustomerAccountDeletionRequestTests
 
             //Assert
             var actionResult = Assert.IsType<CreatedAtActionResult>(result);
-            DeletionRequestModel model = Assert.IsAssignableFrom<DeletionRequestModel>(actionResult.Value);
+            DeletionRequestReadDTO model = Assert.IsAssignableFrom<DeletionRequestReadDTO>(actionResult.Value);
             mockDeletionRequestRepo.Verify(dr => dr.CreateDeletionRequest(It.IsAny<DeletionRequestModel>()), Times.Once());
             mockDeletionRequestRepo.Verify(dr => dr.SaveChangesAsync(), Times.Once());
         }
@@ -466,13 +466,13 @@ namespace CustomerAccountDeletionRequestTests
         public async void ApproveDeletionRequest_ThrowsArgumentOutOfRangeException(int ID)
         {
             //Arrange
-            JsonPatchDocument<DeletionRequestApproveDTO> newDeletionRequestCreateDTO = new JsonPatchDocument<DeletionRequestApproveDTO>();
+            JsonPatchDocument<DeletionRequestApproveDTO> jsonPatchDocument = new JsonPatchDocument<DeletionRequestApproveDTO>();
 
             var mockDeletionRequestRepo = new Mock<ICustomerAccountDeletionRequestRepository>(MockBehavior.Strict);
             var customerAccountDeletionRequestController = new CustomerAccountDeletionRequestController(mockDeletionRequestRepo.Object, _mapper, _memoryCacheMock.Object, _memoryCacheModel);
 
             //Act and Assert
-            var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await customerAccountDeletionRequestController.ApproveDeletionRequest(ID, newDeletionRequestCreateDTO));
+            var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await customerAccountDeletionRequestController.ApproveDeletionRequest(ID, jsonPatchDocument));
             Assert.Equal("IDs cannot be less than 1. (Parameter 'ID')", exception.Message);
         }
 

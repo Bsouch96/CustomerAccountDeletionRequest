@@ -15,9 +15,8 @@ namespace CustomerAccountDeletionRequestTests.Data
         /// Used to provide a list of test objects.
         /// </summary>
         /// <returns>
-        /// Array Args 1: Operation - Replace
-        /// Array Args 2: Path - /StaffID
-        /// Array Args 3: Value - Any positive Int32
+        /// Array Args 1: CustomerID - Any Int32 > 0
+        /// Array Args 2: DeletionRequest - string not null
         /// </returns>
         public static IEnumerable<object[]> GetDeletionRequestCreateDTOObjects()
         {
