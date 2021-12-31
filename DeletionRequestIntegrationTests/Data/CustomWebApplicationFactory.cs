@@ -8,8 +8,16 @@ using Microsoft.Extensions.Logging;
 
 namespace DeletionRequestIntegrationTests.Data
 {
+    /// <summary>
+    /// Class used to configure a new HttpClient.
+    /// </summary>
+    /// <typeparam name="TStartup">The Startup file.</typeparam>
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<Startup>
     {
+        /// <summary>
+        /// This function is used to configure and seed an in memory database and any other startup features.
+        /// </summary>
+        /// <param name="builder">The WebHostBuilder used to configure required services.</param>
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>

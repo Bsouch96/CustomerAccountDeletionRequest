@@ -37,7 +37,10 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// <summary>
         /// GET all deletion requests.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// An Ok() (Statuscode 200) Object ActionResult alongside a collection of DeletionRequestReadDTOs
+        /// or an appropriate statuscode based on the exception thrown.
+        /// </returns>
         [Authorize("ReadAllCustomerAccountDeletionRequests")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeletionRequestReadDTO>>> GetAllDeletionRequests()
@@ -53,7 +56,10 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// GET individual customer account deletion request.
         /// </summary>
         /// <param name="ID">Represents the customer's ID and is used to get their deletion request.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// An Ok() (Statuscode 200) Object ActionResult alongside a collection of DeletionRequestReadDTOs
+        /// or an appropriate statuscode based on the exception thrown.
+        /// </returns>
         [Authorize("ReadCustomerAccountDeletionRequest")]
         [HttpGet("{ID}")]
         public async Task<ActionResult<DeletionRequestReadDTO>> GetDeletionRequest(int ID)
@@ -94,7 +100,9 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// This function is used to create a deletion request for a customer.
         /// </summary>
         /// <param name="deletionRequestCreateDTO">The parameters supplied to create a deletion request by the POSTing API.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// A CreatedAtAction() (Statuscode 201) ActionResult or an appropriate Statuscode based on the exception thrown.
+        /// </returns>
         [Authorize("CreateCustomerAccountDeletionRequest")]
         [Route("Create")]
         [HttpPost]
@@ -123,7 +131,9 @@ namespace CustomerAccountDeletionRequest.Controllers
         /// the request and the DateTime that the request was approved.
         /// </summary>
         /// <param name="ID">The ID of the customer account that will have their account request approved.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// A NoContent() (Statuscode 204) ActionResult or an appropriate statuscode based on the exception thrown.
+        /// </returns>
         [Authorize("UpdateCustomerAccountDeletionRequest")]
         [Route("Approve/{ID}")]
         [HttpPatch]

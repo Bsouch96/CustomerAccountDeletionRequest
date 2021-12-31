@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace CustomerAccountDeletionRequest.Profiles
 {
+    /// <summary>
+    /// This class is used to map all objects for AutoMapper's reference.
+    /// </summary>
     public class DeletionRequestProfile : Profile
     {
         public DeletionRequestProfile()

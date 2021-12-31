@@ -23,7 +23,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         }
 
         /// <summary>
-        /// Gets all Deletion Request Models that are awaiting a decision on their status from the database.
+        /// Asynchronously get all Deletion Request Models that are awaiting a decision on their status from the database.
         /// </summary>
         /// <returns>A list of all Deletion Request Models that are awaiting a decision on their status.</returns>
         public async Task<List<DeletionRequestModel>> GetAllAwaitingDeletionRequestsAsync()
@@ -32,7 +32,7 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         }
 
         /// <summary>
-        /// Gets the specified Deletion Request Model from the database based on the passed in CustomerID.
+        /// Asynchronously get the specified Deletion Request Model from the database based on the passed in CustomerID.
         /// </summary>
         /// <param name="ID">Represents the Customer ID</param>
         /// <returns>A DeletionRequestModel containing data relating to the passedin Customer ID</returns>
@@ -71,9 +71,9 @@ namespace CustomerAccountDeletionRequest.Repositories.Concrete
         }
 
         /// <summary>
-        /// Save/push all additions and updates to the Database.
+        /// Asynchronously save/push all additions and updates to the Database.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A completed Task.</returns>
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
