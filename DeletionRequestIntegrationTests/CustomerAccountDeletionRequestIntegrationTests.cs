@@ -30,7 +30,9 @@ namespace DeletionRequestIntegrationTests
         {
             _client = factory.CreateClient();
 
-            _configuration = new ConfigurationBuilder().AddUserSecrets<CustomerAccountDeletionRequestIntegrationTests>().Build();
+            _configuration = new ConfigurationBuilder().AddUserSecrets<CustomerAccountDeletionRequestIntegrationTests>()
+                .AddJsonFile("appsettings.json")
+                .Build();
 
             _auth0Settings = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
