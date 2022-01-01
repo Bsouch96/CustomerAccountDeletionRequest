@@ -11,6 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,7 +47,7 @@ namespace CustomerAccountDeletionRequest.Controllers
         public async Task<ActionResult<IEnumerable<DeletionRequestReadDTO>>> GetAllDeletionRequests()
         {
             if(_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
-                return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestValues));
+                return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestValues.Where(dr => dr.DeletionRequestStatus == Enums.DeletionRequestStatusEnum.AwaitingDecision)));
 
             var deletionRequestModels = await _customerAccountDeletionRequestRepository.GetAllAwaitingDeletionRequestsAsync();
             return Ok(_mapper.Map<IEnumerable<DeletionRequestReadDTO>>(deletionRequestModels));
@@ -164,10 +165,7 @@ namespace CustomerAccountDeletionRequest.Controllers
             await _customerAccountDeletionRequestRepository.SaveChangesAsync();
 
             if (_memoryCache.TryGetValue(_memoryCacheModel.CustomerAccountDeletionRequests, out List<DeletionRequestModel> deletionRequestValues))
-            {
                 deletionRequestValues.RemoveAll(delReq => delReq.CustomerID == deletionRequestModel.CustomerID);
-                deletionRequestValues.Add(deletionRequestModel);
-            }
 
             return NoContent();
         }
