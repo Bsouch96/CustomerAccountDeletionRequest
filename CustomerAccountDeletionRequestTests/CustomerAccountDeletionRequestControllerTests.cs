@@ -551,7 +551,7 @@ namespace CustomerAccountDeletionRequestTests
 
         [Theory, MemberData(nameof(DeletionRequestApproveDTOObjects.GetDeletionRequestApproveDTOObjects),
                  MemberType = typeof(DeletionRequestApproveDTOObjects))]
-        public async void ApproveDeletionRequest_ShouldAddToCache(int ID, int staffID)
+        public async void ApproveDeletionRequest_ShouldNotAddToCache(int ID, int staffID)
         {
             //Arrange
             JsonPatchDocument<DeletionRequestApproveDTO> jsonPatchDocument = new JsonPatchDocument<DeletionRequestApproveDTO>();
@@ -580,42 +580,15 @@ namespace CustomerAccountDeletionRequestTests
             await customerAccountDeletionRequestController.ApproveDeletionRequest(ID, jsonPatchDocument);
             //Get the newly added DeletionRequest from the memoryCache.
             var action = await customerAccountDeletionRequestController.GetDeletionRequest(ID);
-            mockDeletionRequestRepo.Verify(dr => dr.GetDeletionRequestAsync(ID), Times.Once());
+            mockDeletionRequestRepo.Verify(dr => dr.GetDeletionRequestAsync(ID), Times.Exactly(2));
 
             //Assert
             var actionResult = Assert.IsType<OkObjectResult>(action.Result);
             DeletionRequestReadDTO returnedModel = Assert.IsAssignableFrom<DeletionRequestReadDTO>(actionResult.Value);
             Assert.Equal(returnedModel.CustomerID, ID);
-            mockDeletionRequestRepo.Verify(dr => dr.GetDeletionRequestAsync(ID), Times.Once());
+            mockDeletionRequestRepo.Verify(dr => dr.GetDeletionRequestAsync(ID), Times.Exactly(2));
             mockDeletionRequestRepo.Verify(dr => dr.UpdateDeletionRequest(It.IsAny<DeletionRequestModel>()), Times.Once());
             mockDeletionRequestRepo.Verify(dr => dr.SaveChangesAsync(), Times.Once());
         }
-
-        /*[Theory, MemberData(nameof(DeletionRequestApproveDTOObjects.GetDeletionRequestApproveDTOObjects),
-                 MemberType = typeof(DeletionRequestApproveDTOObjects))]
-        public async Task Update_WhenCalledWithModelStateError_ThrowsArgumentException(int ID, int StaffID)
-        {
-            // Arrange
-            JsonPatchDocument<DeletionRequestApproveDTO> jsonPatchDocument = new JsonPatchDocument<DeletionRequestApproveDTO>();
-            DeletionRequestApproveDTO deletionRequestApproveDTO = new DeletionRequestApproveDTO 
-            { 
-                StaffID = StaffID
-            };
-            jsonPatchDocument.Replace<int>(dr => dr.StaffID, StaffID);
-            var mockDeletionRequestRepo = new Mock<ICustomerAccountDeletionRequestRepository>(MockBehavior.Strict);
-            var repoExpected = GetDeletionRequests();
-
-            mockDeletionRequestRepo.Setup(dr => dr.GetDeletionRequestAsync(ID)).ReturnsAsync(repoExpected.Find(dr => dr.CustomerID == ID)).Verifiable();
-
-            var customerAccountDeletionRequestController = new CustomerAccountDeletionRequestController(mockDeletionRequestRepo.Object, _mapper, _memoryCacheMock.Object, _memoryCacheModel);
-
-            customerAccountDeletionRequestController.ObjectValidator = new FaultyValidator();
-
-            // Act
-            await Assert.ThrowsAsync<ArgumentException>(async() => await customerAccountDeletionRequestController.ApproveDeletionRequest(ID, jsonPatchDocument));
-
-            // Assert
-            mockDeletionRequestRepo.Verify(dr => dr.GetDeletionRequestAsync(ID), Times.Once());
-        }*/
     }
 }
