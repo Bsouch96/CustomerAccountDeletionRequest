@@ -42,6 +42,13 @@ steps:
 #    SecretsFilter: '*'
 #    RunAsPreJob: false
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo $(AuthClientID)
+      
+      echo $(AuthClientSecret)
+
 - task: FileTransform@1
   inputs:
     folderPath: '$(System.DefaultWorkingDirectory)/**/'
