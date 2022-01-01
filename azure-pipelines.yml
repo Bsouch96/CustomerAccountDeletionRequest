@@ -42,7 +42,7 @@ steps:
   inputs:
     folderPath: '$(System.DefaultWorkingDirectory)/**/*.zip'
     fileType: 'json'
-    targetFiles: 'appsettings.json'
+    targetFiles: '**/CustomerAccountDeletionRequest/appsettings.json'
 - task: PublishBuildArtifacts@1
 
 - task: DotNetCoreCLI@2
