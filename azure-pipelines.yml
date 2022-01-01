@@ -1,15 +1,4 @@
 # ASP.NET Core (.NET Framework)
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      - displayName: 'Update AppSettings file before testing'
-        powershell: | 
-          $pathToJson = "DeletionRequestIntegrationTests/appsettings.json"
-          $a = Get-Content $pathToJson | ConvertFrom-Json
-          $a.AppSettings.AUTHCLIENTID = ${{parameters.AUTHCLIENTID}}
-          $a.AppSettings.AUTHCLIENTSECRET =  ${{parameters.AUTHCLIENTSECRET}} 
-          $a | ConvertTo-Json | set-content $pathToJson
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
@@ -43,7 +32,17 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'Azure for Students (b3d5f944-8fc9-497b-b3cf-2c0c442a68f6)'
+    KeyVaultName: 'ThamcoSecretVault'
+    SecretsFilter: '*'
+    RunAsPreJob: false
+- task: FileTransform@1
+  inputs:
+    folderPath: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    fileType: 'json'
+    targetFiles: 'appsettings.json'
 - task: PublishBuildArtifacts@1
 
 - task: DotNetCoreCLI@2
@@ -52,7 +51,7 @@ steps:
     command: 'test'
     arguments: '--no-build --configuration $(buildConfiguration)'
     publishTestResults: true
-    projects: '**/CustomerAccountDeletionRequestUnitTests/*.csproj'
+    projects: '**/CustomerAccountDeletionRequestTests/*.csproj'
     
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
