@@ -30,7 +30,8 @@ namespace DeletionRequestIntegrationTests
         {
             _client = factory.CreateClient();
 
-            _configuration = new ConfigurationBuilder().AddUserSecrets<CustomerAccountDeletionRequestIntegrationTests>()
+            _configuration = new ConfigurationBuilder()
+                .AddUserSecrets<CustomerAccountDeletionRequestIntegrationTests>()
                 .AddJsonFile("appsettings.json")
                 .Build();
 
@@ -49,8 +50,8 @@ namespace DeletionRequestIntegrationTests
             var auth0Client = new AuthenticationApiClient(_auth0Settings["Domain"]);
             var tokenRequest = new ClientCredentialsTokenRequest()
             {
-                ClientId = _configuration["AuthClientID"],
-                ClientSecret = _configuration["AuthClientSecret"],
+                ClientId = (_configuration["AuthClientID"] == "" ? _configuration["Auth0:{{AuthClientID}}"] : _configuration["AuthClientID"]),
+                ClientSecret = (_configuration["AuthClientSecret"] == "" ? _configuration["Auth0:{{AuthClientSecret}}"] : _configuration["AuthClientSecret"]),
                 Audience = _auth0Settings["Audience"]
             };
             var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
