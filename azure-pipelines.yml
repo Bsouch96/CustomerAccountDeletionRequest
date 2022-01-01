@@ -32,15 +32,17 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
 - task: AzureKeyVault@2
   inputs:
     azureSubscription: 'Azure for Students (b3d5f944-8fc9-497b-b3cf-2c0c442a68f6)'
     KeyVaultName: 'ThamcoSecretVault'
     SecretsFilter: '*'
     RunAsPreJob: false
+
 - task: FileTransform@1
   inputs:
-    folderPath: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    folderPath: '$(System.DefaultWorkingDirectory)/**/'
     fileType: 'json'
     targetFiles: '**/appsettings.json'
 
@@ -52,9 +54,9 @@ steps:
     arguments: '--no-build --configuration $(buildConfiguration)'
     publishTestResults: true
     projects: '**/CustomerAccountDeletionRequestTests/*.csproj'
-    
+
 - task: DotNetCoreCLI@2
-  displayName: 'Run unit tests - $(buildConfiguration)'
+  displayName: 'Run integration tests - $(buildConfiguration)'
   inputs:
     command: 'test'
     arguments: '--no-build --configuration $(buildConfiguration)'
