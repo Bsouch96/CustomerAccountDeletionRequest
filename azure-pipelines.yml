@@ -10,16 +10,17 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  
-#variables: #Secrets
-#  - group: KeyVaultVariables
-#  - name: Auth0.{{AuthClientID}}
-#    value: $(AuthClientID)
-#  - name: Auth0.{{AuthClientSecret}}
-#    value: $(AuthCientSecret)
+  - name: solution
+    value: '**/*.sln'
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+  - group: KeyVaultVariables
+  - name: AuthClientID
+    value: $(AuthClientID)
+  - name: AuthClientSecret
+    value: $(AuthClientSecret)
 
 steps:
 - task: NuGetToolInstaller@1
@@ -43,9 +44,8 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo Auth0.AUTHCLIENTID
-      
-      echo Auth0.AUTHCLIENTSECRET
+      echo AuthClientID
+      echo AuthClientSecret
 
 #- task: AzureKeyVault@2
 #  inputs:
