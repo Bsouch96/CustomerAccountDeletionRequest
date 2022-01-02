@@ -16,6 +16,7 @@ variables:
     value: 'Any CPU'
   - name: buildConfiguration
     value: 'Release'
+  - group: KeyVaultVariables
 #  - name: 'AuthClientID'
 #    value: $(AuthClientID)
 #  - name: 'AuthClientSecret'
@@ -91,15 +92,14 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-     $pathToJson = "SamLearnsAzure/SamLearnsAzure.Tests/appsettings.json"
+     $pathToJson = "CustomerAccountDeletionRequest/appsettings.json"
          $a = Get-Content $pathToJson | ConvertFrom-Json
-         $a.AppSettings.AuthClientID = ${{env.AuthClientID}}
-         $a.AppSettings.AuthClientSecret =  ${{env.AuthClientSecret}} 
+         $a.AppSettings.AuthClientID = $AuthClientID
+         $a.AppSettings.AuthClientSecret =  $AuthClientSecret
          $a | ConvertTo-Json | set-content $pathToJson
   env:
     AuthClientID: $(AuthClientID)
     AuthClientSecret: $(AuthClientSecret)
-  
 
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
