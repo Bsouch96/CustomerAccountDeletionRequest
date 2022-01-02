@@ -17,9 +17,9 @@ variables:
   - name: buildConfiguration
     value: 'Release'
   - group: KeyVaultVariables
-  - name: AuthClientID
+  - name: 'AuthClientID'
     value: $(AuthClientID)
-  - name: AuthClientSecret
+  - name: 'AuthClientSecret'
     value: $(AuthClientSecret)
 
 steps:
