@@ -39,9 +39,9 @@ steps:
 
 - task: FileTransform@1
   inputs:
-    folderPath: '**/'
+    folderPath: ''
     fileType: 'json'
-    targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
+    targetFiles: '**\CustomerAccountDeletionRequest\appsettings.json'
 
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
