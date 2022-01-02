@@ -13,8 +13,13 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  Auth0.AUTHCLIENTID: $(AuthClientID)
-  Auth0.AUTHCLIENTSECRET: $(AuthClientSecret)
+  
+variables: #Secrets
+  - group: KeyVaultVariables
+  - name: Auth0.{{AuthClientID}}
+    value: $(AuthClientID)
+  - name: Auth0.{{AuthClientSecret}}
+    value: $(AuthCientSecret)
 
 steps:
 - task: NuGetToolInstaller@1
@@ -38,9 +43,9 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo $Auth0.AUTHCLIENTID
+      echo Auth0.AUTHCLIENTID
       
-      echo $Auth0.AUTHCLIENTSECRET
+      echo Auth0.AUTHCLIENTSECRET
 
 #- task: AzureKeyVault@2
 #  inputs:
@@ -49,25 +54,25 @@ steps:
 #    SecretsFilter: '*'
 #    RunAsPreJob: false
 
-#- task: FileTransform@1
-#  inputs:
-#    folderPath: '$(System.DefaultWorkingDirectory)/**/'
-#    fileType: 'json'
-#    targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
-
-- task: replacetokens@4
+- task: FileTransform@1
   inputs:
-    rootDirectory: '$(System.DefaultWorkingDirectory)/**/'
+    folderPath: '$(System.DefaultWorkingDirectory)/**/'
+    fileType: 'json'
     targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
-    encoding: 'auto'
-    tokenPattern: 'doublebraces'
-    writeBOM: true
-    actionOnMissing: 'warn'
-    keepToken: false
-    actionOnNoFiles: 'continue'
-    enableTransforms: false
-    useLegacyPattern: false
-    enableTelemetry: true
+
+#- task: replacetokens@4
+#  inputs:
+#    rootDirectory: '$(System.DefaultWorkingDirectory)/**/'
+#    targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
+#    encoding: 'auto'
+#    tokenPattern: 'doublebraces'
+#    writeBOM: true
+#    actionOnMissing: 'warn'
+#    keepToken: false
+#    actionOnNoFiles: 'continue'
+#    enableTransforms: false
+#    useLegacyPattern: false
+#    enableTelemetry: true
 
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
