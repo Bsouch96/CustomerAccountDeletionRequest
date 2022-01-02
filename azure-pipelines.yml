@@ -94,12 +94,12 @@ steps:
     script: |
      $pathToJson = "CustomerAccountDeletionRequest/appsettings.json"
          $a = Get-Content $pathToJson | ConvertFrom-Json
-         $a.AppSettings.AuthClientID = $AuthClientID
-         $a.AppSettings.AuthClientSecret =  $AuthClientSecret
+         $a.AppSettings.AuthClientID = $AuthClientIDYml
+         $a.AppSettings.AuthClientSecret =  $AuthClientSecretYml
          $a | ConvertTo-Json | set-content $pathToJson
   env:
-    AuthClientID: $(AuthClientID)
-    AuthClientSecret: $(AuthClientSecret)
+    AuthClientIDYml: $(AuthClientID)
+    AuthClientSecretYml: $(AuthClientSecret)
 
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
