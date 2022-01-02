@@ -66,6 +66,12 @@ namespace DeletionRequestIntegrationTests
             };
             var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
 
+            Console.WriteLine($"AppSettings.json Audience: {_auth0Settings["Audience"]}");
+            Console.WriteLine($"AppSettings.json Domain: {_auth0Settings["Domain"]}");
+            Console.WriteLine($"tokenRequest.ClientId: {tokenRequest.ClientId}");
+            Console.WriteLine($"tokenRequest.ClientSecret: {tokenRequest.ClientSecret}");
+            Console.WriteLine($"tokenResponse.AccessToken from GetTokenAsync(): {tokenResponse.AccessToken}");
+            
             Debug.WriteLine($"AppSettings.json Audience: {_auth0Settings["Audience"]}");
             Debug.WriteLine($"AppSettings.json Domain: {_auth0Settings["Domain"]}");
             Debug.WriteLine($"tokenRequest.ClientId: {tokenRequest.ClientId}");
