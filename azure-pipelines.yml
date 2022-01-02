@@ -13,8 +13,13 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  Auth0.AUTHCLIENTID: $(AuthClientID)
-  Auth0.AUTHCLIENTSECRET: $(AuthClientSecret)
+  
+#variables: #Secrets
+#  - group: KeyVaultVariables
+#  - name: Auth0.{{AuthClientID}}
+#    value: $(AuthClientID)
+#  - name: Auth0.{{AuthClientSecret}}
+#    value: $(AuthCientSecret)
 
 steps:
 - task: NuGetToolInstaller@1
@@ -38,9 +43,9 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      echo $Auth0.AUTHCLIENTID
+      echo Auth0.AUTHCLIENTID
       
-      echo $Auth0.AUTHCLIENTSECRET
+      echo Auth0.AUTHCLIENTSECRET
 
 #- task: AzureKeyVault@2
 #  inputs:
