@@ -66,6 +66,10 @@ namespace DeletionRequestIntegrationTests
             };
             var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
 
+            Debug.WriteLine($"AppSettings.json Audience: {_auth0Settings["Audience"]}");
+            Debug.WriteLine($"AppSettings.json Domain: {_auth0Settings["Domain"]}");
+            Debug.WriteLine($"tokenResponse.AccessToken from GetTokenAsync(): {tokenResponse.AccessToken}");
+
             return tokenResponse.AccessToken;
         }
 
