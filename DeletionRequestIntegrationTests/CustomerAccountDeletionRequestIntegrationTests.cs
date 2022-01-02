@@ -60,8 +60,8 @@ namespace DeletionRequestIntegrationTests
             Debug.WriteLine($"AppSettings.json AuthClientSecret: {_configuration["AuthClientSecret"]}");
             var tokenRequest = new ClientCredentialsTokenRequest()
             {
-                ClientId = (_configuration["Auth0:AuthClientID"] == "" ? _configuration["AuthClientID"] : _configuration["Auth0:AuthClientID"]),
-                ClientSecret = (_configuration["Auth0:AuthClientSecret"] == "" ? _configuration["AuthClientSecret"] : _configuration["Auth0:AuthClientSecret"]),
+                ClientId = _configuration["AuthClientID"],
+                ClientSecret = _configuration["AuthClientSecret"],
                 Audience = _auth0Settings["Audience"]
             };
 
