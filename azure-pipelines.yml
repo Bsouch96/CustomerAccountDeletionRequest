@@ -16,11 +16,11 @@ variables:
     value: 'Any CPU'
   - name: buildConfiguration
     value: 'Release'
-  - group: KeyVaultVariables
-  - name: 'AuthClientID'
-    value: $(AuthClientID)
-  - name: 'AuthClientSecret'
-    value: $(AuthClientSecret)
+  #- group: KeyVaultVariables
+  #- name: 'AuthClientID'
+  #  value: $(AuthClientID)
+  #- name: 'AuthClientSecret'
+  #  value: $(AuthClientSecret)
 
 steps:
 - task: NuGetToolInstaller@1
@@ -41,11 +41,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo AuthClientID
-      echo AuthClientSecret
+#- task: CmdLine@2
+#  inputs:
+#    script: |
+#      echo AuthClientID
+#      echo AuthClientSecret
 
 #- task: AzureKeyVault@2
 #  inputs:
@@ -60,6 +60,20 @@ steps:
 #    fileType: 'json'
 #    targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
 
+#- task: replacetokens@4
+#  inputs:
+#    rootDirectory: '$(System.DefaultWorkingDirectory)/**/'
+#    targetFiles: '
+#    encoding: 'auto'
+#    tokenPattern: 'doublebraces'
+#    writeBOM: true
+#    actionOnMissing: 'warn'
+#    keepToken: false
+#    actionOnNoFiles: 'continue'
+#    enableTransforms: false
+#    useLegacyPattern: false
+#    enableTelemetry: true
+
 - task: replacetokens@4
   inputs:
     rootDirectory: '$(System.DefaultWorkingDirectory)/**/'
@@ -67,12 +81,22 @@ steps:
     encoding: 'auto'
     tokenPattern: 'doublebraces'
     writeBOM: true
-    actionOnMissing: 'warn'
+    actionOnMissing: 'fail'
     keepToken: false
-    actionOnNoFiles: 'continue'
+    actionOnNoFiles: 'fail'
     enableTransforms: false
     useLegacyPattern: false
-    enableTelemetry: true
+    enableTelemetry: true'
+
+#- task: PowerShell@2
+#  inputs:
+#    targetType: 'inline'
+#   script: |
+#     $pathToJson = "SamLearnsAzure/SamLearnsAzure.Tests/appsettings.json"
+#         $a = Get-Content $pathToJson | ConvertFrom-Json
+#         $a.AppSettings.ClientSecret = ${{parameters.clientSecret}}
+#         $a.AppSettings.RedisConnection =  ${{parameters.redisConnection}} 
+#         $a | ConvertTo-Json | set-content $pathToJson
 
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
