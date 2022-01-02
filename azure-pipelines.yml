@@ -92,7 +92,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-     $pathToJson = "CustomerAccountDeletionRequest/appsettings.json"
+     $pathToJson = "$(System.DefaultWorkingDirectory)/**/CustomerAccountDeletionRequest/appsettings.json"
          $a = Get-Content $pathToJson | ConvertFrom-Json
          $a.AppSettings.AuthClientID = $AuthClientIDYml
          $a.AppSettings.AuthClientSecret =  $AuthClientSecretYml
