@@ -64,19 +64,22 @@ namespace DeletionRequestIntegrationTests
                 ClientSecret = (_configuration["Auth0:AuthClientSecret"] == "" ? _configuration["AuthClientSecret"] : _configuration["Auth0:AuthClientSecret"]),
                 Audience = _auth0Settings["Audience"]
             };
-            var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
 
             Console.WriteLine($"AppSettings.json Audience: {_auth0Settings["Audience"]}");
             Console.WriteLine($"AppSettings.json Domain: {_auth0Settings["Domain"]}");
             Console.WriteLine($"tokenRequest.ClientId: {tokenRequest.ClientId}");
             Console.WriteLine($"tokenRequest.ClientSecret: {tokenRequest.ClientSecret}");
-            Console.WriteLine($"tokenResponse.AccessToken from GetTokenAsync(): {tokenResponse.AccessToken}");
+            //Console.WriteLine($"tokenResponse.AccessToken from GetTokenAsync(): {tokenResponse.AccessToken}");
             
             Debug.WriteLine($"AppSettings.json Audience: {_auth0Settings["Audience"]}");
             Debug.WriteLine($"AppSettings.json Domain: {_auth0Settings["Domain"]}");
             Debug.WriteLine($"tokenRequest.ClientId: {tokenRequest.ClientId}");
             Debug.WriteLine($"tokenRequest.ClientSecret: {tokenRequest.ClientSecret}");
-            Debug.WriteLine($"tokenResponse.AccessToken from GetTokenAsync(): {tokenResponse.AccessToken}");
+            //Debug.WriteLine($"tokenResponse.AccessToken from GetTokenAsync(): {tokenResponse.AccessToken}");
+
+            var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
+
+            
 
             return tokenResponse.AccessToken;
         }
