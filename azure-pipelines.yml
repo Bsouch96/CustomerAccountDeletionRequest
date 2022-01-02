@@ -16,11 +16,10 @@ variables:
     value: 'Any CPU'
   - name: buildConfiguration
     value: 'Release'
-  #- group: KeyVaultVariables
-  #- name: 'AuthClientID'
-  #  value: $(AuthClientID)
-  #- name: 'AuthClientSecret'
-  #  value: $(AuthClientSecret)
+  - name: 'AuthClientID'
+    value: $(AuthClientID)
+  - name: 'AuthClientSecret'
+    value: $(AuthClientSecret)
 
 steps:
 - task: NuGetToolInstaller@1
