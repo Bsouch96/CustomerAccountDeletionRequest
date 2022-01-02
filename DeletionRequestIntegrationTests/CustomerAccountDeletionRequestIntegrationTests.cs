@@ -50,8 +50,8 @@ namespace DeletionRequestIntegrationTests
             var auth0Client = new AuthenticationApiClient(_auth0Settings["Domain"]);
             var tokenRequest = new ClientCredentialsTokenRequest()
             {
-                ClientId = (_configuration["AuthClientID"] == "" ? _configuration["Auth0:{{AuthClientID}}"] : _configuration["AuthClientID"]),
-                ClientSecret = (_configuration["AuthClientSecret"] == "" ? _configuration["Auth0:{{AuthClientSecret}}"] : _configuration["AuthClientSecret"]),
+                ClientId = (_configuration["Auth0:AuthClientID"] == "" ? _configuration["AuthClientID"] : _configuration["Auth0:AuthClientID"]),
+                ClientSecret = (_configuration["Auth0:AuthClientSecret"] == "" ? _configuration["AuthClientSecret"] : _configuration["Auth0:AuthClientSecret"]),
                 Audience = _auth0Settings["Audience"]
             };
             var tokenResponse = await auth0Client.GetTokenAsync(tokenRequest);
