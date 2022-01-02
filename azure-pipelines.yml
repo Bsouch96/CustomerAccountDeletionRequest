@@ -16,11 +16,7 @@ variables:
     value: 'Any CPU'
   - name: buildConfiguration
     value: 'Release'
-  #- group: KeyVaultVariables
-  #- name: 'AuthClientID'
-  #  value: $(AuthClientID)
-  #- name: 'AuthClientSecret'
-  #  value: $(AuthClientSecret)
+  - group: KeyVaultVariables
 
 steps:
 - task: NuGetToolInstaller@1
@@ -41,62 +37,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      echo AuthClientID
-#      echo AuthClientSecret
-
-#- task: AzureKeyVault@2
-#  inputs:
-#    azureSubscription: 'Azure for Students (b3d5f944-8fc9-497b-b3cf-2c0c442a68f6)'
-#    KeyVaultName: 'ThamcoSecretVault'
-#    SecretsFilter: '*'
-#    RunAsPreJob: false
-
-#- task: FileTransform@1
-#  inputs:
-#    folderPath: '$(System.DefaultWorkingDirectory)/**/'
-#    fileType: 'json'
-#    targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
-
-#- task: replacetokens@4
-#  inputs:
-#    rootDirectory: '$(System.DefaultWorkingDirectory)/**/'
-#    targetFiles: '
-#    encoding: 'auto'
-#    tokenPattern: 'doublebraces'
-#    writeBOM: true
-#    actionOnMissing: 'warn'
-#    keepToken: false
-#    actionOnNoFiles: 'continue'
-#    enableTransforms: false
-#    useLegacyPattern: false
-#    enableTelemetry: true
-
-- task: replacetokens@4
+- task: FileTransform@1
   inputs:
-    rootDirectory: '$(System.DefaultWorkingDirectory)/**/'
+    folderPath: '$(System.DefaultWorkingDirectory)/**/'
+    fileType: 'json'
     targetFiles: 'CustomerAccountDeletionRequest/appsettings.json'
-    encoding: 'auto'
-    tokenPattern: 'doublebraces'
-    writeBOM: true
-    actionOnMissing: 'fail'
-    keepToken: false
-    actionOnNoFiles: 'fail'
-    enableTransforms: false
-    useLegacyPattern: false
-    enableTelemetry: true'
-
-#- task: PowerShell@2
-#  inputs:
-#    targetType: 'inline'
-#   script: |
-#     $pathToJson = "SamLearnsAzure/SamLearnsAzure.Tests/appsettings.json"
-#         $a = Get-Content $pathToJson | ConvertFrom-Json
-#         $a.AppSettings.ClientSecret = ${{parameters.clientSecret}}
-#         $a.AppSettings.RedisConnection =  ${{parameters.redisConnection}} 
-#         $a | ConvertTo-Json | set-content $pathToJson
 
 - task: DotNetCoreCLI@2
   displayName: 'Run unit tests - $(buildConfiguration)'
