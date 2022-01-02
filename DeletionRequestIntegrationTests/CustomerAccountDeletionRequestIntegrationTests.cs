@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -48,6 +49,15 @@ namespace DeletionRequestIntegrationTests
         private async Task<string> GetAccessToken()
         {
             var auth0Client = new AuthenticationApiClient(_auth0Settings["Domain"]);
+            Console.WriteLine($"SecretsJson Auth0.AuthClientID: {_configuration["Auth0:AuthClientID"]}");
+            Console.WriteLine($"AppSettings.json AuthClientID: {_configuration["AuthClientID"]}");
+            Console.WriteLine($"SecretsJson Auth0:AuthClientSecret: {_configuration["Auth0:AuthClientSecret"]}");
+            Console.WriteLine($"AppSettings.json AuthClientSecret: {_configuration["AuthClientSecret"]}");
+            
+            Debug.WriteLine($"SecretsJson Auth0.AuthClientID: {_configuration["Auth0:AuthClientID"]}");
+            Debug.WriteLine($"AppSettings.json AuthClientID: {_configuration["AuthClientID"]}");
+            Debug.WriteLine($"SecretsJson Auth0:AuthClientSecret: {_configuration["Auth0:AuthClientSecret"]}");
+            Debug.WriteLine($"AppSettings.json AuthClientSecret: {_configuration["AuthClientSecret"]}");
             var tokenRequest = new ClientCredentialsTokenRequest()
             {
                 ClientId = (_configuration["Auth0:AuthClientID"] == "" ? _configuration["AuthClientID"] : _configuration["Auth0:AuthClientID"]),
