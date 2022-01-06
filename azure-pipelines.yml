@@ -51,12 +51,12 @@ steps:
     publishTestResults: true
     projects: '**/CustomerAccountDeletionRequestTests/*.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Run integration tests - $(buildConfiguration)'
-  inputs:
-    command: 'test'
-    arguments: '--no-build --configuration $(buildConfiguration)'
-    publishTestResults: true
-    projects: '**/DeletionRequestIntegrationTests/*.csproj'
+#- task: DotNetCoreCLI@2
+#  displayName: 'Run integration tests - $(buildConfiguration)'
+#  inputs:
+#    command: 'test'
+#    arguments: '--no-build --configuration $(buildConfiguration)'
+#    publishTestResults: true
+#    projects: '**/DeletionRequestIntegrationTests/*.csproj'
 
 - task: PublishBuildArtifacts@1
