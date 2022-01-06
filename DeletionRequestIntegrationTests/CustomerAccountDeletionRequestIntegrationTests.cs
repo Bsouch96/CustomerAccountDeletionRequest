@@ -27,6 +27,7 @@ namespace DeletionRequestIntegrationTests
         private readonly IConfiguration _configurationSecrets;
         private readonly IConfiguration _configurationJson;
         private readonly IConfigurationSection _auth0Settings;
+        private readonly string _accessToken;
 
         public CustomerAccountDeletionRequestIntegrationTests(CustomWebApplicationFactory<Startup> factory)
         {
@@ -45,6 +46,8 @@ namespace DeletionRequestIntegrationTests
                 .AddJsonFile("appsettings.json")
                 .Build()
                 .GetSection("Auth0");
+
+            _accessToken = GetAccessToken().Result;
         }
 
         /// <summary>
@@ -122,7 +125,7 @@ namespace DeletionRequestIntegrationTests
         {
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, "api/CustomerAccountDeletionRequest");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             //Act
@@ -177,7 +180,7 @@ namespace DeletionRequestIntegrationTests
         {
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, $"api/CustomerAccountDeletionRequest/{ID}");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             //Act
@@ -197,7 +200,7 @@ namespace DeletionRequestIntegrationTests
         {
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, $"api/CustomerAccountDeletionRequest/{ID}");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             //Act
@@ -218,7 +221,7 @@ namespace DeletionRequestIntegrationTests
         {
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, $"api/CustomerAccountDeletionRequest/{ID}");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string errorMessage = "IDs cannot be less than 1. (Parameter 'ID')";
 
@@ -241,7 +244,7 @@ namespace DeletionRequestIntegrationTests
         {
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, $"api/CustomerAccountDeletionRequest/{ID}");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string errorMessage = $"A resource for ID: {ID} does not exist.";
 
@@ -312,7 +315,7 @@ namespace DeletionRequestIntegrationTests
 
             var request = new HttpRequestMessage(HttpMethod.Post, "api/CustomerAccountDeletionRequest/Create");
             request.Content = new StringContent(JsonConvert.SerializeObject(deletionRequestCreateDTO), Encoding.UTF8, "application/json");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             //Act
@@ -335,7 +338,7 @@ namespace DeletionRequestIntegrationTests
 
             var request = new HttpRequestMessage(HttpMethod.Post, "api/CustomerAccountDeletionRequest/Create");
             request.Content = new StringContent(JsonConvert.SerializeObject(deletionRequestCreateDTO), Encoding.UTF8, "application/json");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             //Act
@@ -406,7 +409,7 @@ namespace DeletionRequestIntegrationTests
             jsonPatchDocument.Replace<int>(dr => dr.StaffID, StaffID);
             var request = new HttpRequestMessage(HttpMethod.Patch, $"api/CustomerAccountDeletionRequest/Approve/{CustomerID}");
             request.Content = new StringContent(JsonConvert.SerializeObject(jsonPatchDocument), Encoding.UTF8, "application/json");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             //Act
@@ -427,7 +430,7 @@ namespace DeletionRequestIntegrationTests
             jsonPatchDocument.Replace<int>(dr => dr.StaffID, StaffID);
             var request = new HttpRequestMessage(HttpMethod.Patch, $"api/CustomerAccountDeletionRequest/Approve/{CustomerID}");
             request.Content = new StringContent(JsonConvert.SerializeObject(jsonPatchDocument), Encoding.UTF8, "application/json");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string errorMessage = "IDs cannot be less than 1. (Parameter 'ID')";
 
@@ -453,7 +456,7 @@ namespace DeletionRequestIntegrationTests
             jsonPatchDocument.Replace<int>(dr => dr.StaffID, StaffID);
             var request = new HttpRequestMessage(HttpMethod.Patch, $"api/CustomerAccountDeletionRequest/Approve/{CustomerID}");
             request.Content = new StringContent(JsonConvert.SerializeObject(jsonPatchDocument), Encoding.UTF8, "application/json");
-            var accessToken = await GetAccessToken();
+            var accessToken = _accessToken;
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string errorMessage = $"A resource for ID: {CustomerID} does not exist."; ;
 
